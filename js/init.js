@@ -326,6 +326,7 @@ function changeQuestion(qid) {
 
 /* changes the maptype (ie. points, counties, states, etc.) */
 function changemapType(newMapType) {
+	maptype = newMapType
  	mapossumLayer.options.maptype = newMapType
  	mapossumLayer.redraw()
 }
@@ -401,6 +402,7 @@ function getLegend(qid){
 
 /* generates charts */
 function genChart(data){
+	crtData = [];
 	$.each(data.data,function(i, item) {
 	crtAtr = {value:data.data[i].count, color:data.data[i].color, highlight:data.data[i].color, label:data.data[i].answer}
 	crtData.push(crtAtr)
@@ -411,15 +413,21 @@ function genChart(data){
 }
 
 /* gets identify based on click event, current maptype, and buffer area */
-function identify(e){	
+function identify(e){
 	var latlon = e.latlng.lng+" "+e.latlng.lat;
     point = "Point("+ latlon + ")";	
     popup
         .setLatLng(e.latlng)
-        .setContent("<canvas id='idChart'></canvas>")
+        .setContent("<div id='idText'></div><canvas id='idChart'></canvas>")
         .openOn(map);
-        genChart(testingChart)
-	//$.getJSON( "http://services.mapossum.org/identify/"+window.qid+"/"+maptype+"/&point="+point+"&buffer=0&callback=?", function( data ) {});
+	$.getJSON( "http://services.mapossum.org/identify/"+window.qid+"/"+maptype+"?point="+point+"&buffer=1&callback=?", function( data ) {
+		console.log(data)
+		console.log(maptype)
+		genChart(data)
+		txtId = $("<center><h4 class='black'>"+data.data[0].name +"</h4></center>")		
+		txtId.appendTo('#idText').trigger( "create" );
+
+	});
 }
 
 /* click events */
@@ -578,7 +586,6 @@ $("#acc").bind('click', function(){
 		});
 	}
 });
-
 
 
 });
