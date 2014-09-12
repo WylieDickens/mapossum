@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Mapossum</title>
+	<meta charset="utf-8" />	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui" />
+
+	<!-- styles -->
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />	
+	<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" />
+	<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.css" />
+	<link rel="stylesheet" href="styles/styles.css" />
+
+	<!-- js -->
+	<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>	
+	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>	
+	<script src="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.js"></script>	
+	<script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.3.0"></script>
+</head>
+
+<body>
+	<div data-role="page" class="ui-responsive-panel" id="home" data-theme="b" >
+    	<div data-role="header" style="background-color:#2F4F4F;">
+        	<h1 class="white">Mapossum</h1>
+        	<a href="#nav-panel" data-icon="bars" data-iconpos="notext">Menu</a>
+			<a href="#login" id ="loginIcon"data-icon="plus" data-iconpos="notext">Add</a>			
+        </div>
+
+        <div data-role="content">
+        	<div id="map"></div>
+        	<a href="#"><img src="images/layers.png" id="boundaryChange"></a>
+        	<a href="#"><img src="images/legendIcon.png" id="legend"></a>
+        	<a href="#"><img src="images/globe.png" id="globe"></a>
+
+        </div>
+
+     	<div data-role="footer" style="background-color:#2F4F4F;">
+     		<div data-role="navbar" style="background-color:#2F4F4F;">
+        		<div class="white" id="curQuestion" style="background-color:#2F4F4F;"></div>        	
+        	</div>
+		    <div data-role="navbar" class="ui-btn-active" data-iconpos="top">
+		        <ul>
+		            <li><a href="#" id="previousQuestion" data-icon="arrow-l" data-rel="dialog" data-transition="pop">Previous Question</a></li>
+		            <li><a href="#" id="answerQuestion" data-icon="star">Answer Question</a></li>
+		            <li><a href="#" id="nextQuestion" data-icon="arrow-r">Next Question</a></li>
+		        </ul>
+		    </div><!-- /navbar -->		    
+		</div><!-- /footer -->
+    
+	<div data-role="panel" data-position="left" data-position-fixed="false" data-display="reveal" id="nav-panel" data-theme="b">
+
+		<ul data-role="listview" data-theme="b" data-divider-theme="a" style="margin-top:-16px;" class="nav-search">
+			<li data-icon="delete" style="background-color:#111;">
+				<a href="#" data-rel="close">Close menu</a>
+			</li>
+			<li data-filtertext="accordions collapsible set collapsible-set collapsed">
+				<a href="#about">About</a>
+			</li>
+			<li data-filtertext="accordions collapsible set collapsible-set collapsed">
+				<a href="#account" id="acc">Account</a>
+			</li>
+			<li data-filtertext="accordions collapsible set collapsible-set collapsed">
+				<a href="#contactInfo">Contact Us</a>
+			</li>			
+			<li data-filtertext="wai-aria voiceover accessibility screen reader">
+				<a href="#createQuestion">Create Question</a>
+			</li>
+			<li data-filtertext="accordions collapsible set collapsible-set collapsed">
+				<a href="#help">Help</a>
+			</li>
+			<li data-filtertext="accordions collapsible set collapsible-set collapsed">
+				<a href="#searchLocation">Search</a>
+			</li>
+		</ul>
+
+		<!-- panel content goes here -->
+	</div><!-- /panel -->
+
+
+	<div data-role="panel" data-position="right" data-position-fixed="false" data-display="overlay" id="add" data-theme="b">
+
+		<form class="userform">
+			<h2>Create new user</h2>
+			<label for="user">Email</label>
+			<input type="text" name="username" id="username" value="" data-clear-btn="true" data-mini="true">
+
+			<label for="pass">Password:</label>
+			<input type="password" name="password" id="password" value="" data-clear-btn="true" autocomplete="off" data-mini="true">
+
+			<label for="first">First Name</label>
+			<input type="text" name="first" id="first" value="" data-clear-btn="true" data-mini="true">
+
+			<label for="last">Last Name</label>
+			<input type="text" name="last" id="last" value="" data-clear-btn="true" data-mini="true">			
+
+			<label for="affiliation">Affiliation</label>
+			<input type="text" name="affiliation" id="affiliation" value="" data-clear-btn="true" data-mini="true">			
+
+			<div class="ui-grid-a">
+			    <div class="ui-block-a" id="subUser"><a href="#" data-rel="close" data-role="button" data-theme="b" data-mini="true">Submit</a></div>			    
+			    <div class="ui-block-b"><a href="#" data-rel="close" data-role="button" data-theme="b" data-mini="true">Cancel</a></div>
+			</div>
+		</form>
+
+		<!-- panel content goes here -->
+	</div><!-- /panel -->
+
+
+	<div data-role="panel" data-position="right" data-position-fixed="false" data-display="overlay" id="login" data-theme="b">
+
+		<form class="userform">
+			<h2>Login</h2>
+			<label for="username">Username</label>
+			<input type="text" id="txtUsername" data-clear-btn="true" data-mini="true">
+
+			<label for="password">Password:</label>
+			<input type="password" id="txtPassword" data-clear-btn="true" autocomplete="off" data-mini="true">
+
+			<br><hr>
+
+			<p>If you have not registered for an account, <a href="#add">Register Here</a>.</p>		
+
+			<div class="ui-grid-a">
+			    <div class="ui-block-a" id="verify"><a href="#" data-rel="close" data-role="button" data-theme="b" data-mini="true">Login</a></div>
+			    <div class="ui-block-b"><a href="#" data-rel="close" data-role="button" data-theme="b" data-mini="true">Cancel</a></div>
+			</div>
+		</form>
+
+		<!-- panel content goes here -->
+	</div><!-- /panel -->
+
+	<div data-role="panel" data-position="left" data-position-fixed="false" data-display="overlay" id="createQuestion" data-theme="b" data-dismissible="false">
+
+		<form class="userform">
+			<h2>Create a New Question</h2>
+			<div data-role="fieldcontain">
+				<p>Question:</p>
+				<textarea cols="40" rows="8" name="textarea" id="questionFld" data-mini="true"></textarea>
+			</div>
+			<div data-role="fieldcontain">
+				<p>Description:<br><small><i>(Use this space to give background information regarding your question.)</i></small></p>
+				<textarea cols="40" rows="8" name="textarea" id="descriptionFld" data-mini="true"></textarea>
+			</div>
+			<div data-role="fieldcontain">
+				<p>Hashtag:</p>
+				<textarea cols="40" rows="1" name="textarea" id="hashFld" data-mini="true"></textarea>
+			</div>
+			<div data-role="fieldcontain">
+				<p>Number of Answers:</p>
+			 	<input type="range" name="slider" id="sliderFld" value="4" min="0" max="10" data-highlight="true" data-mini="true" />
+			</div>
+			<div data-role="fieldcontain">
+				<p>Does your question require pictures?</p>
+				<select name="slider" id="flip-b" data-role="slider">
+					<option value="no">No</option>
+					<option value="yes">Yes</option>
+				</select>
+			</div> 			
+
+			<div class="ui-grid-a">
+			    <div class="ui-block-a" id="subQues"><a href="#" data-rel="close" data-role="button" data-theme="b" data-mini="true">Submit</a></div>
+			    <div class="ui-block-b"><a href="#" data-rel="close" data-role="button" data-theme="b" data-mini="true">Cancel</a></div>
+			</div>
+		</form>
+
+		<!-- panel content goes here -->
+	</div><!-- /panel -->
+
+	<div data-role="panel" data-position="left" data-position-fixed="false" data-display="overlay" id="addAnswers" data-theme="b" data-dismissible="false">
+
+		<form class="radio">
+			<h3>Enter the answers associated with your question:</h3>
+			
+			<div id="answers"></div>
+
+			<div class="ui-grid-a">
+			    <div class="ui-block-a" id="subAnswer"><a href="#" data-rel="close" data-role="button" data-theme="b" data-mini="true">Submit</a></div>
+			    <div class="ui-block-b"><a href="#" data-rel="close" data-role="button" data-theme="b" data-mini="true">Cancel</a></div>
+			</div>
+		</form>
+
+		<!-- panel content goes here -->
+	</div><!-- /panel -->
+
+	<div data-role="panel" data-position="left" data-position-fixed="false" data-display="overlay" id="responses" data-theme="b" data-dismissible="false">
+			<div id="question"></div>					
+			<div id="answerList"></div>			 	
+			
+			<div class="ui-grid-a">
+			    <div class="ui-block-a" id="subResponse"><a href="#" data-rel="close" data-role="button" data-theme="b" data-mini="true">Submit</a></div>
+			    <div class="ui-block-b"><a href="#" data-rel="close" data-role="button" data-theme="b" data-mini="true">Cancel</a></div>
+			</div>
+			<hr>
+			<div id="setLocation"></div>
+			<a href="#" data-role="button" data-inline="true" data-mini="true" data-transition="pop" id="isp">Reset to device location</a>
+			<a href="#" data-role="button" data-inline="true" data-mini="true" data-transition="pop"id="mapcenter">Reset to map center</a>
+			<hr>
+			<a href="#searchLocation" data-role="button" data-inline="true" data-mini="true" data-icon="location" data-transition="pop">Search</a>
+
+		<!-- panel content goes here -->
+	</div><!-- /panel -->
+
+	<div data-role="panel" data-position="right" data-position-fixed="false" data-display="overlay" id="searchLocation" data-theme="b">	
+			<h1>Enter location below</h1>
+			<p>You may search using city, state, country, zip code, or addess. After searching, center the map on the location you want to use.</p>
+			<div data-role="fieldcontain">			        
+		        <input type="text" name="searchText" id="searchText" value=""  />
+			</div>       
+			<div class="ui-grid-a">
+				    <div class="ui-block-a" id="subLocation"><a href="#" data-rel="close" data-role="button" data-theme="b" data-mini="true">Search</a></div>
+				    <div class="ui-block-b"><a href="#" data-rel="back" data-role="button" data-theme="b" data-mini="true">Cancel</a></div>
+			</div> 
+		<!-- panel content goes here -->
+	</div><!-- /panel -->
+
+	<div data-role="panel" data-position="left" data-position-fixed="false" data-display="overlay" id="contactInfo" data-theme="b">
+		<h2>Contact Us</h2>
+		<p><a href="mailto:george.raber@usm.edu">George Raber</a></p>
+		<p>george.raber@usm.edu</p>
+		<p><a href="mailto:jfdickens@gmail.com">James F. Dickens</a> </p>
+		<p>jfdickens@gmail.com</p>		
+		<p><a href="mailto:joby@usm.edu">Joby Bass</a></p>
+		<p>joby@usm.edu</p>  
+			<!-- panel content goes here -->
+		</div><!-- /panel -->
+	
+
+	<div data-role="panel" data-position="left" data-position-fixed="false" data-display="overlay" id="about" data-theme="b">
+
+		<h2>About Mapossum</h2>
+		<p>This project, originally inspired by the pop vs soda maps (www.popvssoda.com) seeks to create a web application where any question can be asked and answered by anyone with internet access. The Mapossum allows users to visualize spatial patterns in the questions they wish to pose without the need to possess the knowledge necessary to create maps of their own. The application creates a spatial web-survey system that harnesses the visualization power of a web map to explore the spatial components of question. As a tool it has the ability to help users reveal a different dimension of spatial interactions, and provides more insight into cultural and regional interactions. To accomplish this we have created a framework that abstracts the creation of questions and the logging of spatially referenced responses so that the answers can be mapped as points, or aggregated at various levels of administrative or political units (counties, states, countries).</p>
+		<!-- panel content goes here -->
+	</div><!-- /panel -->	
+
+	<div data-role="panel" data-position="left" data-position-fixed="false" data-display="overlay" id="help" data-theme="b">
+
+		<h2>Help</h2>
+		<p>To <b>create questions</b> you must <a href="#login">login</a>, however if you only wish to answer questions, you do not have to login.</p><p>After you login, you can view all your questions, view chart graphics, and generate a direct link to your question, through the <a href="#account">account page</a>.</p><p>When answering questions, you can use the location provided through your web browser, or use the map center. To make it easier to navigate to a certain location, you can use the <a href="#searchLocation">search</a> feature.</p>
+		<!-- panel content goes here -->
+	</div><!-- /panel -->	
+</div><!--page -->
+
+
+
+<div data-role="popup" id="boundaryMenu" data-theme="b">
+	<ul data-role="listview" data-inset="true" data-theme="b">
+		<li data-role="divider" data-theme="a"><b>Select boundary</b></li>
+		<li><a href="#" id="updatePoints">Points</a></li>
+		<li><a href="#" id="updateCounties">Counties</a></li>
+		<li><a href="#" id="updateSubCountries">Sub-Country (ie. states)</a></li>
+		<li><a href="#" id="updateCountries">Countries</a></li>
+		<li><a href="#" id="updateWatercolor">Watercolor</a></li>
+	</ul>
+</div>
+
+<div data-role="popup" id="legendPopup" data-theme="b">
+	<ul data-role="listview" data-inset="true" data-theme="b">
+		<li data-role="divider" data-theme="a"><b>Legend</b></li>
+		<div id="legendPic"></div>
+		
+	</ul>
+</div>
+
+<div data-role="popup" id="descriptionPopup">
+  <div id="descriptionTxt"></div>
+</div>
+
+<div data-role="dialog" id="account">
+	<div>
+		<h1>Account</h1>
+		<div id="accountDiv"></div>		
+		<div class="ui-grid-a">			    
+			    <div class="ui-block-b"><a href="#" data-rel="back" data-role="button" data-theme="a" data-mini="true">Close</a></div>
+		</div>  
+	</div>
+</div>
+</body>
+</html>
+
+<script src="js/Chart.js"></script>
+<script src="js/init.js"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-54486395-1', 'auto');
+  ga('send', 'pageview');
+
+</script>

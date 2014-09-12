@@ -1,0 +1,63 @@
+<div data-role="page" id="home">
+    	<div data-role="header">
+        	<h1>Mapossum</h1>
+        </div>
+            
+        <div data-role="content">
+        	<div id="map"></div>
+        </div>
+
+     	<div data-role="footer">
+		    <div data-role="navbar" class="ui-btn-active" data-iconpos="top">
+		        <ul>
+		            <li><a href="#question" data-icon="grid" data-rel="dialog" data-transition="pop">Create Question</a></li>
+		            <li><a href="#" data-icon="star">Trending</a></li>
+		            <li><a href="#" data-icon="gear">Setup</a></li>
+		        </ul>
+		    </div><!-- /navbar -->
+		</div><!-- /footer -->
+    </div>
+
+    <!-- Create question dialog -->
+	<div data-role="dialog" id="question">
+	  <div data-role="header">
+	    <h1>Create a New Question:</h1>
+	  </div>
+
+	  <div class="content-primary">
+		<form action="#" method="get">
+			<p>To create a question, fill in the required fields below.</p>
+
+			<div data-role="fieldcontain">
+				<label for="textarea">Question:</label>
+				<textarea cols="40" rows="8" name="textarea" id="questionFld" data-mini="true"></textarea>
+			</div>
+
+			<div data-role="fieldcontain">
+				<label for="slider">Number of Anwsers:</label>
+			 	<input type="range" name="slider" id="sliderFld" value="4" min="0" max="10" data-highlight="true" data-mini="true" />
+			</div>
+
+			<tr><td>No of Dependent</td><td><select name="numDep" id="dropdown">
+			    <option value="">Please Select</option>
+			    <option value="0">0</option>
+			    <option value="1">1</option>
+			    <option value="2">2</option>
+			    <option value="3">3</option>
+			    <option value="4">4</option>
+			    <option value="5">5</option>
+			    <option value="6">6</option></select></td>
+			</tr>
+
+			<tr id="textboxDiv"></tr>
+
+		<div class="ui-body ui-body-b">
+		<fieldset class="ui-grid-a">
+				<div class="ui-block-a"><button type="submit" data-theme="d" data-mini="true">Cancel</button></div>
+				<div class="ui-block-b"><button type="submit" data-theme="a" data-mini="true">Submit</button></div>
+	    </fieldset>
+		</div>
+	</form>
+
+	  </div>
+	</div>
