@@ -1,7 +1,8 @@
 var window={userid:"", loggedUid:"",first:"", last:"", answerNum:"", qid:"", answer:"", curQuestion:"", curAnswers:"", picture:"", explain:""};
-var questions={},count = 0, curlatlon, picture, answerCount, loc, curExtent, logged = 0, useCenter = 1;
+var questions={},count = 0, curlatlon, picture, answerCount, loc, curExtent, logged = 0, useCenter = 1, maptype, popup, crtData=[];
 var userAcc=[];
 var mapossumLayer;
+var testingChart;
 
 $( window ).load(function() {
 
@@ -21,6 +22,8 @@ var bwlayer = L.tileLayer('http://openmapsurfer.uni-hd.de/tiles/roadsg/x={x}&y={
 // replace "toner" here with "terrain" or "watercolor"
 //var bwlayer = new L.StamenTileLayer("watercolor");
 map.addLayer(bwlayer);
+map.on('click', identify);
+popup = L.popup();
 
 getLocation();
 getQuestions();
@@ -396,6 +399,29 @@ function getLegend(qid){
  
 }
 
+/* generates charts */
+function genChart(data){
+	$.each(data.data,function(i, item) {
+	crtAtr = {value:data.data[i].count, color:data.data[i].color, highlight:data.data[i].color, label:data.data[i].answer}
+	crtData.push(crtAtr)
+	id = 'idChart'      					
+	var ctx = document.getElementById(id).getContext("2d");
+	window.myPie = new Chart(ctx).Pie(crtData);
+});
+}
+
+/* gets identify based on click event, current maptype, and buffer area */
+function identify(e){	
+	var latlon = e.latlng.lng+" "+e.latlng.lat;
+    point = "Point("+ latlon + ")";	
+    popup
+        .setLatLng(e.latlng)
+        .setContent("<canvas id='idChart'></canvas>")
+        .openOn(map);
+        genChart(testingChart)
+	//$.getJSON( "http://services.mapossum.org/identify/"+window.qid+"/"+maptype+"/&point="+point+"&buffer=0&callback=?", function( data ) {});
+}
+
 /* click events */
 $("#verify").bind('click', function(e) {
 	email = $("#txtUsername").val()
@@ -534,6 +560,7 @@ $("#acc").bind('click', function(){
     		accUpdate = $('<div><p><b>Question:</b> '+userAcc[index].question+'</p><p><b>Hashtag:</b> '+userAcc[index].hashtag+'</p><p><b>Direct link: </b>http://mapossum.org/?qid='+userAcc[index].qid+'</p></div><canvas class="charts" id="chart-'+index+'"></canvas><br>')
 			accUpdate.appendTo('#accountDiv').trigger( "create" )
 			$.getJSON( "http://services.mapossum.org/getanswers?qid=" + userAcc[index].qid + "&callback=?", function( data ) {
+    			testingChart = data
     			pieData=[];
     			$.each(data.data,function(i, item) {
     				if(data.data[i].count == null){
