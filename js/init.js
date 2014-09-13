@@ -1,5 +1,5 @@
 var window={userid:"", loggedUid:"",first:"", last:"", answerNum:"", qid:"", answer:"", curQuestion:"", curAnswers:"", picture:"", explain:""};
-var questions={},count = 0, curlatlon, picture, answerCount, loc, curExtent, logged = 0, useCenter = 1, maptype, popup, crtData=[];
+var questions={},count = 0, curlatlon, picture, answerCount, loc, curExtent, logged = 0, useCenter = 1, maptype, popup, crtData=[], curdata;
 var userAcc=[];
 var mapossumLayer;
 var testingChart;
@@ -309,6 +309,12 @@ function moveQuestion(count){
 	updateTitle(questions[count].question)
 	changeQuestion(window.qid)
 	getExtent(window.qid)
+	
+	$.getJSON( "http://services.mapossum.org/getanswers?qid=" + window.qid + "&callback=?", function( data ) {
+	  data.data[0].name = "All Responses"
+	  curdata = data.data
+	})
+		
 }
 
 /* runs the set up map event on the server which builds all the configuration files */
@@ -349,7 +355,7 @@ function getLocation() {
 
 /* gets the geographic extent of a questions answers */
 function getExtent(qid){	
-	$.getJSON( "http://services.mapossum.org/getextent?qid="+ qid +"&callback=?", function( data ) {      	
+	$.getJSON( "http://services.mapossum.org/getextent/"+ qid + "/" + maptype + "?callback=?", function( data ) {      	
  		minExtent = data[0]; 		
  		maxExtent = data[1];
  		bounds = [minExtent, maxExtent];  			
@@ -558,13 +564,8 @@ $("#boundaryChange").bind('click', function(){
 })
 
 $("#legend").bind('click', function(){
-
 	$( "#pnlIdent" ).panel( "open");
-	$.getJSON( "http://services.mapossum.org/getanswers?qid=" + window.qid + "&callback=?", function( data ) {
-	  data.data[0].name = "Totals for this Question"
-	  showChart(data.data)
-	})
-	
+	showChart(curdata)
 })
 
 $("#globe").bind('click', function(){
