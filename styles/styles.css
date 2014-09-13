@@ -50,6 +50,16 @@ html, body, #map {
     height: 100%;
     font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
+
+#map {
+    cursor: pointer !important;
+}
+
+/* Mouse Down */
+#map:active {
+    cursor: move !important;
+}
+
 h1,h2, h3, h4, b{
 	font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
