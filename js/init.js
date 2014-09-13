@@ -419,9 +419,12 @@ function identify(e){
     point = "Point("+ latlon + ")";	
 	$.getJSON( "http://services.mapossum.org/identify/"+window.qid+"/"+maptype+"?point="+point+"&buffer=1&callback=?", function( data ) {
 		$("#idText").empty();
+		$("#cvsDiv").empty();
 		$( "#pnlIdent" ).panel( "open"); 
 		txtId = $("<center><h2>"+data.data[0].name +"</h2></center>")		
 		txtId.appendTo('#idText').trigger( "create" );
+		cvs = $("<canvas id='idChart' width='250'></canvas>")		
+		cvs.appendTo('#cvsDiv').trigger( "create" );
 		genChart(data)	
 	});
 }

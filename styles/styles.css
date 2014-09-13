@@ -13,9 +13,6 @@
 	background-color: gray;
 }
 
-canvas{
-	}
-
 [data-role=footer]{bottom:0; position:absolute !important; top: auto !important; width:100%;} 
 
 .ui-dialog-contain {
