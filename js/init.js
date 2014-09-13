@@ -23,7 +23,28 @@ var bwlayer = L.tileLayer('http://openmapsurfer.uni-hd.de/tiles/roadsg/x={x}&y={
 // replace "toner" here with "terrain" or "watercolor"
 //var bwlayer = new L.StamenTileLayer("watercolor");
 map.addLayer(bwlayer);
-map.on('click', identify);
+
+//this code is a hack to distiguish single clicks from double clicks
+var clickCount = 0;
+var popupOpen = false;
+// Add new pin, every time the map gets clicked
+map.on('click', function(e) {
+  if (popupOpen) return;
+  clickCount += 1;
+  if (clickCount <= 1) {
+
+	setTimeout(function() {
+      if (clickCount <= 1) {
+        identify(e);
+      }
+      clickCount = 0;
+    }, 500);
+	
+  }
+});
+
+// old identify that fires both on single and double clicks
+//map.on('click', identify);
 popup = L.popup();
 
 getLocation();
@@ -177,47 +198,38 @@ function getQuestions(){
 		maptype = "watercolor"
 	}
 	
+	console.log(queryQuestion)
+	console.log("http://services.mapossum.org/getquestions?count=1000&hasanswers=true&qids="+queryQuestion)
+	
+	params = {"count":1000, "hasanswers":true}
+	
 	if(queryQuestion > 0){		
-		$.getJSON( "http://services.mapossum.org/getquestions?count=1000&hasanswers=true&qids="+queryQuestion+"&callback=?", function( data ) {
+	
+		params.qid = queryQuestion
+		
+		}
+			
+	$.getJSON( "http://services.mapossum.org/getquestions?callback=?",params, function( data ) {
 			questions = data.data;
 			   
+			count=0
+			nowqid = questions[0].qid
 			
 			for(i=0;i<questions.length;i++){			
 				if(questions[i].qid == queryQuestion){
 					count = i;
-					window.curQuestion = questions[i];
-					window.curQuestion.qid = queryQuestion;
-					window.qid = curQuestion.qid;
-					window.explain = curQuestion.explain;
-					getAnswers(window.curQuestion.qid);
-					layoutQuestion = window.curQuestion.question
-					updateTitle(layoutQuestion)
-					getExtent(window.curQuestion.qid )
+					nowqid = queryQuestion;
+				  }
+				}
+
 					d = new Date();
 					iv = d.getTime(); 
-					mapossumLayer = L.tileLayer('http://maps.mapossum.org/{qid}/{maptype}/{z}/{x}/{y}.png?v={v}', {maptype: maptype, qid:queryQuestion, v: iv, opacity: 0.7})
+					mapossumLayer = L.tileLayer('http://maps.mapossum.org/{qid}/{maptype}/{z}/{x}/{y}.png?v={v}', {maptype: maptype, qid:nowqid, v: iv, opacity: 0.7})
 		    		mapossumLayer.addTo(map);
-		    		getExtent(window.qid)
-				}
-			}
+		    		moveQuestion(count)
+		    		
 		});
-	}
-	else{		
-		$.getJSON( "http://services.mapossum.org/getquestions?&count=1000&hasanswers=true&callback=?", function( data ) {	
-			questions = data.data;
-	    	window.curQuestion = questions[0];	    	
-			window.qid = curQuestion.qid;
-			window.explain = curQuestion.explain;			
-			getAnswers(window.curQuestion.qid);
-			layoutQuestion = window.curQuestion.question
-			updateTitle(layoutQuestion)	    
-			d = new Date();
-			iv = d.getTime(); 
-	    	mapossumLayer = L.tileLayer('http://maps.mapossum.org/{qid}/{maptype}/{z}/{x}/{y}.png?v={v}', {maptype: maptype, qid:window.curQuestion.qid, v: iv, opacity: 0.7})
-		    mapossumLayer.addTo(map); 
-		    getExtent(window.qid)	       
-	});	
-	}	
+		
 }
 
 /* update quesiton title information in the footer */
@@ -288,24 +300,9 @@ function addResponse(qid, answerid, loc){
 
 }
 
-/* moves to the next question in the footer navigation*/
-function nextQuestion(questions){	
-	if(count < questions.length - 1){
-		count++
-	}
-	window.curQuestion = questions[count]
-	window.qid = questions[count].qid
-	window.explain = questions[count].explain	
-	updateTitle(questions[count].question)	
-	changeQuestion(window.qid)
-	getExtent(window.qid)	
-}
 
 /* moves to the previous question in the footer navigation */
-function previousQuestion(questions){
-	if(count >= 1){
-		count--
-	}
+function moveQuestion(count){
 	window.curQuestion = questions[count]
 	window.qid = questions[count].qid
 	window.explain = questions[count].explain	
@@ -321,6 +318,7 @@ function setUpMap(quesid){
 
 /* retreives tiles for a question */
 function changeQuestion(qid) {	
+    getLegend(qid)
 	mapossumLayer.options.qid = qid
 	mapossumLayer.redraw()	
 }
@@ -396,7 +394,7 @@ function showError(error) {
 /* gets legend information for a questions */
 function getLegend(qid){
 	$("#legendPic").empty();	    	
-	legendImage = $('<img src="http://services.mapossum.org/legend?qid='+qid+'">')
+	legendImage = $('<img src="http://services.mapossum.org/legend/'+qid+'" width="230">')
 	legendImage.appendTo('#legendPic').trigger( "create" )
  
 }
@@ -404,8 +402,8 @@ function getLegend(qid){
 /* generates charts */
 function genChart(data){
 	crtData = [];
-	$.each(data.data,function(i, item) {
-		crtAtr = {value:data.data[i].count, color:data.data[i].color, highlight:data.data[i].color, label:data.data[i].answer}
+	$.each(data,function(i, item) {
+		crtAtr = {value:data[i].count, color:data[i].color, highlight:data[i].color, label:data[i].answer}
 		crtData.push(crtAtr)
 	});
 	id = 'idChart'      					
@@ -418,21 +416,27 @@ function identify(e){
 	var latlon = e.latlng.lng+" "+e.latlng.lat;
     point = "Point("+ latlon + ")";	
 	$.getJSON( "http://services.mapossum.org/identify/"+window.qid+"/"+maptype+"?point="+point+"&buffer=1&callback=?", function( data ) {
-		$("#idText").empty();
-		$("#cvsDiv").empty();
-		$( "#pnlIdent" ).panel( "open"); 
-		if(data.data.length == 0){
-			txtId = $("<center><h2>No features found</h2></center>")		
-			txtId.appendTo('#idText').trigger( "create" );
-		}
-		else{			 
-			txtId = $("<center><h2>"+data.data[0].name +"</h2></center>")		
-			txtId.appendTo('#idText').trigger( "create" );
-			cvs = $("<canvas id='idChart' width='250'></canvas>")		
-			cvs.appendTo('#cvsDiv').trigger( "create" );
-			genChart(data)	
-		}
+		showChart(data.data)
 	});
+}
+
+function showChart(data) {
+
+	$("#idText").empty();
+	$("#cvsDiv").empty();
+	$( "#pnlIdent" ).panel( "open"); 
+	if(data.length == 0){
+		txtId = $("<center><h2>No features found</h2></center>")		
+		txtId.appendTo('#idText').trigger( "create" );
+	}
+	else{		 
+		txtId = $("<center><h2>"+data[0].name +"</h2></center>")		
+		txtId.appendTo('#idText').trigger( "create" );
+		cvs = $("<canvas id='idChart' width='250'></canvas>")		
+		cvs.appendTo('#cvsDiv').trigger( "create" );
+		genChart(data)	
+	}	
+	
 }
 
 /* click events */
@@ -509,11 +513,17 @@ $("#subLocation").click(function(){
 })
 
 $("#nextQuestion").bind('click', function(){
-	nextQuestion(questions)
+	if(count < questions.length - 1){
+		count++
+	}
+    moveQuestion(count);
 })
 
 $("#previousQuestion").bind('click', function(){
-	previousQuestion(questions)
+	if(count >= 1){
+		count--
+	}
+	moveQuestion(count);
 })
 
 $("a#updatePoints").bind('click', function(){
@@ -548,9 +558,13 @@ $("#boundaryChange").bind('click', function(){
 })
 
 $("#legend").bind('click', function(){
-	getLegend(window.qid);
-	$( "#legendPopup" ).popup( "open" ).trigger("create")
-	$('#legendPopup').css({position:'fixed',top:'90px',left:'10px'});
+
+	$( "#pnlIdent" ).panel( "open");
+	$.getJSON( "http://services.mapossum.org/getanswers?qid=" + window.qid + "&callback=?", function( data ) {
+	  data.data[0].name = "Totals for this Question"
+	  showChart(data.data)
+	})
+	
 })
 
 $("#globe").bind('click', function(){
