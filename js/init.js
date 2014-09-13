@@ -572,20 +572,20 @@ $("#acc").bind('click', function(){
 		$.each(userAcc,function(index, item) {
     		accUpdate = $('<div><p><b>Question:</b> '+userAcc[index].question+'</p><p><b>Hashtag:</b> '+userAcc[index].hashtag+'</p><p><b>Direct link: </b>http://mapossum.org/?qid='+userAcc[index].qid+'</p></div><canvas class="charts" id="chart-'+index+'"></canvas><br>')
 			accUpdate.appendTo('#accountDiv').trigger( "create" )
-			$.getJSON( "http://services.mapossum.org/getanswers?qid=" + userAcc[index].qid + "&callback=?", function( data ) {
-    			testingChart = data
+			$.getJSON( "http://services.mapossum.org/getanswers?qid=" + userAcc[index].qid + "&callback=?", function( data ) {    			
     			pieData=[];
     			$.each(data.data,function(i, item) {
     				if(data.data[i].count == null){
     					data.data[i].count = 0;
     				}
-    				chartData = {value:data.data[i].count, color:data.data[i].color, highlight:data.data[i].color, label:data.data[i].answer}
-      				pieData.push(chartData)  
-  					id = 'chart-'+index      					
-  					var ctx = document.getElementById(id).getContext("2d");
-					window.myPie = new Chart(ctx).Pie(pieData);
+	    				chartData = {value:data.data[i].count, color:data.data[i].color, highlight:data.data[i].color, label:data.data[i].answer}
+	      				pieData.push(chartData)
+      			});  
+			id = 'chart-'+index      					
+			var ctx = document.getElementById(id).getContext("2d");
+			window.myPie = new Chart(ctx).Pie(pieData);
       			     				 
-    			});
+    			
     		});		
 		});
 	}
