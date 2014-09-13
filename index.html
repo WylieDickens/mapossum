@@ -10,14 +10,11 @@
 	<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" />
 	<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.css" />
 	<link rel="stylesheet" href="styles/styles.css" />
-	<link rel="stylesheet" media="screen" type="text/css" href="styles/colorpicker.css" />
 	<!-- js -->
 	<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>	
 	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>	
 	<script src="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.js"></script>	
 	<!--<script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.3.0"></script>-->
-	<script type="text/javascript" src="js/colorpicker.js"></script>
-
 </head>
 
 <body>
@@ -238,6 +235,15 @@
 
 		<h2>Help</h2>
 		<p>To <b>create questions</b> you must <a href="#login">login</a>, however if you only wish to answer questions, you do not have to login.</p><p>After you login, you can view all your questions, view chart graphics, and generate a direct link to your question, through the <a href="#account">account page</a>.</p><p>When answering questions, you can use the location provided through your web browser, or use the map center. To make it easier to navigate to a certain location, you can use the <a href="#searchLocation">search</a> feature.</p>
+
+		<!-- panel content goes here -->
+	</div><!-- /panel -->	
+</div><!--page -->
+
+<div data-role="panel" data-position="left" data-position-fixed="false" data-display="overlay" id="pnlIdent" data-theme="b">
+	
+		<div id ="idText"></div>
+       	<canvas id="idChart" width="250"></canvas>
 
 		<!-- panel content goes here -->
 	</div><!-- /panel -->	

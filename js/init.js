@@ -9,6 +9,7 @@ $( window ).load(function() {
 $( "#boundaryMenu" ).popup({ overlayTheme: "b" });
 $( "#legendPopup" ).popup({ overlayTheme: "b" });
 $( "#descriptionPopup" ).popup({ overlayTheme: "b"});
+$("#pnlIdent").panel({});
 	
 var map = L.map('map', {trackResize:true, maxZoom:16});
 
@@ -413,20 +414,15 @@ function genChart(data){
 }
 
 /* gets identify based on click event, current maptype, and buffer area */
-function identify(e){
+function identify(e){	
 	var latlon = e.latlng.lng+" "+e.latlng.lat;
     point = "Point("+ latlon + ")";	
-    popup
-        .setLatLng(e.latlng)
-        .setContent("<div id='idText'></div><canvas id='idChart'></canvas>")
-        .openOn(map);
 	$.getJSON( "http://services.mapossum.org/identify/"+window.qid+"/"+maptype+"?point="+point+"&buffer=1&callback=?", function( data ) {
-		console.log(data)
-		console.log(maptype)
-		genChart(data)
-		txtId = $("<center><h4 class='black'>"+data.data[0].name +"</h4></center>")		
+		$("#idText").empty();
+		$( "#pnlIdent" ).panel( "open"); 
+		txtId = $("<center><h2>"+data.data[0].name +"</h2></center>")		
 		txtId.appendTo('#idText').trigger( "create" );
-
+		genChart(data)	
 	});
 }
 
