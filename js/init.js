@@ -405,12 +405,12 @@ function getLegend(qid){
 function genChart(data){
 	crtData = [];
 	$.each(data.data,function(i, item) {
-	crtAtr = {value:data.data[i].count, color:data.data[i].color, highlight:data.data[i].color, label:data.data[i].answer}
-	crtData.push(crtAtr)
+		crtAtr = {value:data.data[i].count, color:data.data[i].color, highlight:data.data[i].color, label:data.data[i].answer}
+		crtData.push(crtAtr)
+	});
 	id = 'idChart'      					
 	var ctx = document.getElementById(id).getContext("2d");
 	window.myPie = new Chart(ctx).Pie(crtData);
-});
 }
 
 /* gets identify based on click event, current maptype, and buffer area */
@@ -580,12 +580,11 @@ $("#acc").bind('click', function(){
     					data.data[i].count = 0;
     				}
     				chartData = {value:data.data[i].count, color:data.data[i].color, highlight:data.data[i].color, label:data.data[i].answer}
-      				pieData.push(chartData)      			
-      				if(data.data.length == i+1){
-      					id = 'chart-'+index      					
-      					var ctx = document.getElementById(id).getContext("2d");
-    					window.myPie = new Chart(ctx).Pie(pieData);
-      				}      				 
+      				pieData.push(chartData)  
+  					id = 'chart-'+index      					
+  					var ctx = document.getElementById(id).getContext("2d");
+					window.myPie = new Chart(ctx).Pie(pieData);
+      			     				 
     			});
     		});		
 		});
