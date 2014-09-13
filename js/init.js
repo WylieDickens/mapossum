@@ -421,11 +421,17 @@ function identify(e){
 		$("#idText").empty();
 		$("#cvsDiv").empty();
 		$( "#pnlIdent" ).panel( "open"); 
-		txtId = $("<center><h2>"+data.data[0].name +"</h2></center>")		
-		txtId.appendTo('#idText').trigger( "create" );
-		cvs = $("<canvas id='idChart' width='250'></canvas>")		
-		cvs.appendTo('#cvsDiv').trigger( "create" );
-		genChart(data)	
+		if(data.data.length == 0){
+			txtId = $("<center><h2>No features found</h2></center>")		
+			txtId.appendTo('#idText').trigger( "create" );
+		}
+		else{			 
+			txtId = $("<center><h2>"+data.data[0].name +"</h2></center>")		
+			txtId.appendTo('#idText').trigger( "create" );
+			cvs = $("<canvas id='idChart' width='250'></canvas>")		
+			cvs.appendTo('#cvsDiv').trigger( "create" );
+			genChart(data)	
+		}
 	});
 }
 
