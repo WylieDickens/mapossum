@@ -25,7 +25,7 @@
 			<a href="#login" id ="loginIcon"data-icon="plus" data-iconpos="notext">Add</a>			
         </div>
 
-        <div data-role="content">
+        <div data-role="content" data-fullscreen="false">
         	<div id="map"></div>
         	<a href="#"><img src="images/layers.png" id="boundaryChange"></a>
         	<a href="#"><img src="images/info.png" id="legend"></a>
@@ -33,9 +33,10 @@
 
         </div>
 
-     	<div data-role="footer" style="background-color:#2F4F4F;">
+     	<div data-role="footer" style="background-color:#2F4F4F;" data-fullscreen="false" data-position="fixed" >
      		<div data-role="navbar" style="background-color:#2F4F4F;">
-        		<div class="white" id="curQuestion" style="background-color:#2F4F4F;"></div>        	
+        		<div style="background-color:#2F4F4F;" data-fullscreen="false" data-position="fixed" class="white" id="curQuestion" style="background-color:#2F4F4F;">
+        		   <center><h3>Question Text</h3></center></div> <!-- This needs to be here so the panel is drawn the correct size so that the map will also not be underneeth the panel -->      	
         	</div>
 		    <div data-role="navbar" class="ui-btn-active" data-iconpos="top">
 		        <ul>

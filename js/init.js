@@ -52,7 +52,9 @@ getQuestions();
 
 map.on('move', function(e) {
     b = map.getBounds()
-    //console.log(b._northEast.lat, b._northEast.lat, b._southWest.lat, b._southWest.lat); // e is an event object (MouseEvent in this case)
+    c = map.getCenter()
+    //console.log(c);
+    //console.log(b._northEast.lat, b._northEast.lng, b._southWest.lat, b._southWest.lng); // e is an event object (MouseEvent in this case)
 });
 
 $( ".leaflet-control-attribution" ).css( "display", "none" );
@@ -233,10 +235,8 @@ function getQuestions(){
 }
 
 /* update quesiton title information in the footer */
-function updateTitle(layoutQuestion){
-	$("#curQuestion").empty();
-	questionFooter = $('<center><h3>' + layoutQuestion + '</h3></center>');
-	questionFooter.appendTo("#curQuestion")		
+function updateTitle(layoutQuestion){	
+	$("#curQuestion").html( '<center><h3>' + layoutQuestion + '</h3></center>' );	
 }
 
 /* get possible answers for a question*/
@@ -481,7 +481,7 @@ $("#subQues").bind('click', function(e) {
 });
 
 $("#subAnswer").bind('click', function(e) {	 
-	console.log('sub Clicked')
+	//console.log('sub Clicked')
 	addAnswer(window.qid)
 });
 
