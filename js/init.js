@@ -160,7 +160,7 @@ function addAnswer(qid){
 	   		$.getJSON( "http://services.mapossum.org/addanswer?qid=" + window.qid + "&answer=" + window.answer +"&link=" + window.picture + "&callback=?", function( data ) {
 	          	if(answerCount == window.answerNum){
 	          		setUpMap(window.qid);
-					window.location.href = "http://mapossum.org/?qid="+ window.qid;					
+					//window.location.href = "http://mapossum.org/?qid="+ window.qid;					
 				}      
 				answerCount++
 	    	});
@@ -174,7 +174,7 @@ function addAnswer(qid){
 	   		$.getJSON( "http://services.mapossum.org/addanswer?qid=" + window.qid + "&answer=" + window.answer +"&callback=?", function( data ) {
 	   			if(answerCount == window.answerNum){								
 					setUpMap(window.qid);		
-					window.location.href = "http://mapossum.org/?qid="+ window.qid;			
+					//window.location.href = "http://mapossum.org/?qid="+ window.qid;			
 				}	
 				answerCount++				
 	    	});	
@@ -331,7 +331,23 @@ function moveQuestion(count){
 
 /* runs the set up map event on the server which builds all the configuration files */
 function setUpMap(quesid){
-	$.getJSON( "http://services.mapossum.org/setupmaps?qid=" + quesid + "&callback=?", function( data ) {});
+	$.getJSON( "http://services.mapossum.org/setupmaps?qid=" + quesid + "&callback=?", function( data ) {
+		$.getJSON( "http://services.mapossum.org/getquestions?qids=" + quesid + "&minutes=0" + "&callback=?", function( newq ) {
+			
+			questions.push(newq.data[0]);
+			
+			count = 0;
+			for(i=0;i<questions.length;i++){			
+				if(questions[i].qid == quesid){
+					count = i;
+					nowqid = quesid;
+				  }
+				}
+
+		    moveQuestion(count)
+			
+		});
+	});
 }
 
 /* retreives tiles for a question */
