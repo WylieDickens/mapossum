@@ -420,7 +420,7 @@ function showError(error) {
 /* gets legend information for a questions */
 function getLegend(qid){
 	$("#legendPic").empty();	    	
-	legendImage = $('<img src="http://services.mapossum.org/legend/'+qid+'" width="230">')
+	legendImage = $('<img src="http://services.mapossum.org/legend/'+qid+'?opacity=0&color=white" width="230">')
 	legendImage.appendTo('#legendPic').trigger( "create" )
  
 }
