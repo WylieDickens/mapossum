@@ -197,7 +197,7 @@ function getQuestions(){
 
 	
 	if (maptype == "") {
-		maptype = "watercolor"
+		maptype = "subs"
 	}
 	
 	console.log(queryQuestion)
@@ -303,6 +303,18 @@ function addResponse(qid, answerid, loc){
 
 /* moves to the previous question in the footer navigation */
 function moveQuestion(count){
+
+	$("#previousQuestion").css( "display", "" );
+	$("#nextQuestion").css( "display", "" );
+	
+	if (count == 0) {
+		$("#previousQuestion").css( "display", "none" );
+	}
+	
+	if (count == (questions.length - 1)) {
+		$("#nextQuestion").css( "display", "none" );
+	}
+
 	window.curQuestion = questions[count]
 	window.qid = questions[count].qid
 	window.explain = questions[count].explain	
@@ -521,14 +533,14 @@ $("#subLocation").click(function(){
 $("#nextQuestion").bind('click', function(){
 	if(count < questions.length - 1){
 		count++
-	}
+	} 
     moveQuestion(count);
 })
 
 $("#previousQuestion").bind('click', function(){
 	if(count >= 1){
 		count--
-	}
+	} 
 	moveQuestion(count);
 })
 

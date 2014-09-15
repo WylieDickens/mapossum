@@ -39,6 +39,10 @@ body {
 	padding:10px;
 }
 
+.navcolorfix{
+	background-color: #333; 
+}
+
 #descriptionPopup{
 	background-color:#FFFFFF;
 }
