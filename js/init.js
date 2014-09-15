@@ -55,6 +55,8 @@ map.on('move', function(e) {
     c = map.getCenter()
     //console.log(c);
     //console.log(b._northEast.lat, b._northEast.lng, b._southWest.lat, b._southWest.lng); // e is an event object (MouseEvent in this case)
+    
+    //http://nominatim.openstreetmap.org/reverse?format=xml&lat=52.5487429714954&lon=-1.81602098644987&zoom=18&addressdetails=1
 });
 
 $( ".leaflet-control-attribution" ).css( "display", "none" );
@@ -254,9 +256,7 @@ function buildReponses(qid){
 	$("#descriptionTxt").empty()
 
 	$.getJSON( "http://services.mapossum.org/getanswers?qid=" + qid + "&callback=?", function( data ) {
-	
-      	locationText = $('<h4>Choose your location below:</h4><p><small><b>"Use current location"</b> uses your current location provided through your browser. <b>"Use map center"</b> uses the centriod of the current map viewport. You may use the <b>"search"</b> option to make navigation to your desired location easier.</small></p>')
-      	locationText.appendTo('#setLocation')  		
+	  		
       	
       	for(i=0; i < data.data.length; i++){      		
       		if(data.data[i].link.length > 1 && i==0){      			
@@ -382,9 +382,17 @@ function fitBounds(bounds){
 
 /* reformats lat/long to be used */
 function formatLoc(position) {
-    var latlon = position.coords.longitude+" "+position.coords.latitude;
-    curlatlon = "Point("+ latlon + ")"; 
-    loc = 1  
+    setcurlatlon(position.coords.longitude,position.coords.latitude);
+    loc = 1;
+}
+
+function setcurlatlon(xlng,ylat) {
+	 curlatlon = "Point("+ xlng + " " + ylat +")";
+	 
+	 $.getJSON( "http://nominatim.openstreetmap.org/reverse?format=json&lat=" + ylat + "&lon=" + xlng + "&zoom=18&addressdetails=1", function( data ) { 
+	 	    
+	 		$("#curLocationText").html( "<h4>Current Response Position: <h4><small>Latitude: " + ylat + "<br>" + "Longitude: " + xlng + "<br>" + "Which is near:<br>" + data.display_name  + "</small>");
+	 })
 }
 
 /* error switch for geolocation */
@@ -392,19 +400,19 @@ function showError(error) {
     switch(error.code) {
         case error.PERMISSION_DENIED:
         	loc = 0
-            alert("User denied the request for Geolocation. Please note that the map center will be used as your location for all answers.")
+            alert("User denied the request for Geolocation. Please note that you will be required to enter a map location from the map center as your location for all answers.")
             break;
         case error.POSITION_UNAVAILABLE:
         	loc = 0
-           	alert("Location information is unavailable.  Please note that the map center will be used as your location for all answers.")
+           	alert("Location information is unavailable.  Please note that you will be required to enter a map location from the map center as your location for all answers.")
             break;
         case error.TIMEOUT:
             loc = 0
-            alert("The request to get user location timed out.  Please note that the map center will be used as your location for all answers.")
+            alert("The request to get user location timed out.  Please note that you will be required to enter a map location from the map center as your location for all answers.")
             break;
         case error.UNKNOWN_ERROR:
             loc = 0
-            alert("An unknown error occurred.  Please note that the map center will be used as your location for all answers.")
+            alert("An unknown error occurred.  Please note that you will be required to enter a map location from the map center as your location for all answers.")
             break;
     }
 }
@@ -507,8 +515,8 @@ $("#isp").bind('click', function(){
 
 $("#mapcenter").bind('click', function(){
 	console.log('center')
-	center = map.getCenter();    		
-    curlatlon = "Point("+ center.lng + " " + center.lat+")";
+	center = map.getCenter(); 
+	setcurlatlon(center.lng, center.lat);
 });
 
 $("#subResponse").bind('click', function() {	

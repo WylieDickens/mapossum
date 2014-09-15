@@ -190,12 +190,18 @@
 			    <div class="ui-block-a" id="subResponse"><a href="#" data-rel="close" data-role="button" data-theme="b" data-mini="true">Submit</a></div>
 			    <div class="ui-block-b"><a href="#" data-rel="close" data-role="button" data-theme="b" data-mini="true">Cancel</a></div>
 			</div>
+			
+			
 			<hr>
+			<div id="curLocationText">Your position is not defined.  You will not be able to answer questions until you set your position below.</div>
+			
 			<div id="setLocation"></div>
-			<a href="#" data-role="button" data-inline="true" data-mini="true" data-transition="pop" id="isp">Reset to device location</a>
-			<a href="#" data-role="button" data-inline="true" data-mini="true" data-transition="pop"id="mapcenter">Reset to map center</a>
+			<h4>Change Response Position:</h4>
+			<a href="#" data-role="button" data-inline="true" data-mini="true" data-transition="pop" id="isp">Set location to device location</a>
+			<a href="#" data-role="button" data-inline="true" data-mini="true" data-transition="pop"id="mapcenter">Set location to current map center</a>
 			<hr>
-			<a href="#searchLocation" data-role="button" data-inline="true" data-mini="true" data-icon="location" data-transition="pop">Search</a>
+			<div><small>You can use the search button below to make it easier to navigate to your desired position and then set your position using the button above.</small></div>
+			<a href="#searchLocation" data-role="button" data-inline="true" data-mini="true" data-icon="location" data-transition="pop">Search (Change map center)</a>
 
 		<!-- panel content goes here -->
 	</div><!-- /panel -->
