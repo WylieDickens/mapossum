@@ -391,7 +391,7 @@ function setcurlatlon(xlng,ylat) {
 	 
 	 $.getJSON( "http://nominatim.openstreetmap.org/reverse?format=json&lat=" + ylat + "&lon=" + xlng + "&zoom=18&addressdetails=1", function( data ) { 
 	 	    
-	 		$("#curLocationText").html( "<h4>Current Response Position: <h4><small>Latitude: " + ylat + "<br>" + "Longitude: " + xlng + "<br>" + "Which is near:<br>" + data.display_name  + "</small>");
+	 		$("#curLocationText").html( "<h4>Current Response Position: <h4><small>Lat: " + ylat.toFixed(3) + " " + "Lon: " + xlng.toFixed(3) + "<br>" + "<br>Which is near:<br>" + data.display_name  + "</small>");
 	 })
 }
 
