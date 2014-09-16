@@ -406,7 +406,8 @@ function setUpMap(quesid){
 function changeQuestion(qid) {	
     getLegend(qid)
 	mapossumLayer.options.qid = qid
-	mapossumLayer.redraw()	
+	mapossumLayer.redraw();
+	updateHash();
 }
 
 /* changes the maptype (ie. points, counties, states, etc.) */
