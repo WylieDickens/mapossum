@@ -1,4 +1,4 @@
-var window={userid:"", loggedUid:"",first:"", last:"", answerNum:"", qid:"", answer:"", curQuestion:"", curAnswers:"", picture:"", explain:""};
+var mpapp={userid:"", loggedUid:"",first:"", last:"", answerNum:"", qid:"", answer:"", curQuestion:"", curAnswers:"", picture:"", explain:""};
 var questions={},count = 0, curlatlon, picture, answerCount, loc, curExtent, logged = 0, useCenter = 1, maptype, popup, crtData=[], curdata;
 var userAcc=[];
 var mapossumLayer;
@@ -59,16 +59,16 @@ $( ".leaflet-control-attribution" ).css( "display", "none" );
 /* verify user login information -- if successful, user questions are stored for the account page*/
 function verify(email, password){
     $.getJSON( "http://services.mapossum.org/verify?email=" + email + "&password=" + password + "&callback=?", function( data ) {
-      window.userid = data.userid;
+      mpapp.userid = data.userid;
       if(data.userid != -1){
         localStorage.setItem("semail", email)
         localStorage.setItem("spassword", password)
       	$('#loginIcon').css( "background-color", "green" );     	
       	logged = 1
-      	window.first = data.first
-      	window.last = data.last
-      	window.loggedUid = data.userid
-      	$.getJSON( "http://services.mapossum.org/getquestions?users=" + window.loggedUid + "&minutes=0" + "&callback=?", function( userQuestions ) {
+      	mpapp.first = data.first
+      	mpapp.last = data.last
+      	mpapp.loggedUid = data.userid
+      	$.getJSON( "http://services.mapossum.org/getquestions?users=" + mpapp.loggedUid + "&minutes=0" + "&callback=?", function( userQuestions ) {
       		info = userQuestions.data      		     	
       		for(var i = 0; i < info.length; i++ ){ 
       			ques = {question:info[i].question, explain:info[i].explain, uid:info[i].userid, qid:info[i].qid, hashtag:info[i].hashtag}
@@ -106,15 +106,15 @@ function addUser(email, password, affiliation, first, last, location){
 
 /* create question along with logic to add questions answers and pictures */
 function addQuestion(userid, question, hashtag, description){				
-    $.getJSON( "http://services.mapossum.org/addquestion?userid=" + window.userid + "&question=" + question + "&hashtag=" + hashtag + "&explain="+description+"&callback=?", function( data ) {
+    $.getJSON( "http://services.mapossum.org/addquestion?userid=" + mpapp.userid + "&question=" + question + "&hashtag=" + hashtag + "&explain="+description+"&callback=?", function( data ) {
   
-      window.qid = data.qid
+      mpapp.qid = data.qid
 
       if(picture == "yes"){ 
 
 	      var generateTextBoxes = function( qty, container ) {
 	        if (container) {
-	            for (var i = 1; i <= window.answerNum; i++ ) {
+	            for (var i = 1; i <= mpapp.answerNum; i++ ) {
 	                $('<label for="answer-'+i+'">Answer '+i+'</label>&nbsp;<input id="Answer-'+i+'" name="Answer-'+i+'" type="text" /><br><label for="picture-'+i+'">Picture URL '+i+'</label>&nbsp;<input id="Picture-'+i+'" name="Picture-'+i+'" type="text" /><br>').appendTo( container );
 	            }
 	        }
@@ -126,7 +126,7 @@ function addQuestion(userid, question, hashtag, description){
  	 else{
  	 	var generateTextBoxes = function( qty, container ) {
 	        if (container) {
-	            for (var i = 1; i <= window.answerNum; i++ ) {
+	            for (var i = 1; i <= mpapp.answerNum; i++ ) {
 	                $('<label for="answer-'+i+'">Answer '+i+'</label>&nbsp;<input id="Answer-'+i+'" name="Answer-'+i+'" type="text" /><br>').appendTo( container );
 	            }
 	        }
@@ -144,31 +144,31 @@ function addAnswer(qid){
 	answerCount = 1;
 	if(picture == "yes"){
 		console.log('yes ')
-		for(var i = 1; i <= window.answerNum; i++){	   		
+		for(var i = 1; i <= mpapp.answerNum; i++){	   		
 	   		ansDiv = '#Answer-'+i;
 	   		answerDiv = String(ansDiv)
-	   		window.answer = $(answerDiv).val()
+	   		mpapp.answer = $(answerDiv).val()
 	   		picDiv = '#Picture-'+i;
 	   		pictureDiv = String(picDiv)
-	   		window.picture = $(pictureDiv).val()
-	   		$.getJSON( "http://services.mapossum.org/addanswer?qid=" + window.qid + "&answer=" + window.answer +"&link=" + window.picture + "&callback=?", function( data ) {
-	          	if(answerCount == window.answerNum){
-	          		setUpMap(window.qid);
-					//window.location.href = "http://mapossum.org/?qid="+ window.qid;					
+	   		mpapp.picture = $(pictureDiv).val()
+	   		$.getJSON( "http://services.mapossum.org/addanswer?qid=" + mpapp.qid + "&answer=" + mpapp.answer +"&link=" + mpapp.picture + "&callback=?", function( data ) {
+	          	if(answerCount == mpapp.answerNum){
+	          		setUpMap(mpapp.qid);
+					//mpapp.location.href = "http://mapossum.org/?qid="+ mpapp.qid;					
 				}      
 				answerCount++
 	    	});
 		}	
 	}
 	else{		
-		for(var i = 1; i <= window.answerNum; i++){	   		
+		for(var i = 1; i <= mpapp.answerNum; i++){	   		
 	   		ansDiv = '#Answer-'+i;
 	   		answerDiv = String(ansDiv)
-	   		window.answer = $(answerDiv).val()	
-	   		$.getJSON( "http://services.mapossum.org/addanswer?qid=" + window.qid + "&answer=" + window.answer +"&callback=?", function( data ) {
-	   			if(answerCount == window.answerNum){								
-					setUpMap(window.qid);		
-					//window.location.href = "http://mapossum.org/?qid="+ window.qid;			
+	   		mpapp.answer = $(answerDiv).val()	
+	   		$.getJSON( "http://services.mapossum.org/addanswer?qid=" + mpapp.qid + "&answer=" + mpapp.answer +"&callback=?", function( data ) {
+	   			if(answerCount == mpapp.answerNum){								
+					setUpMap(mpapp.qid);		
+					//mpapp.location.href = "http://mapossum.org/?qid="+ mpapp.qid;			
 				}	
 				answerCount++				
 	    	});	
@@ -294,7 +294,7 @@ function updateTitle(layoutQuestion){
 /* get possible answers for a question*/
 function getAnswers(id){
 	$.getJSON( "http://services.mapossum.org/getanswers?qid=" + id + "&callback=?", function( data ) {      	
-      	window.curAnswers = data.data;      
+      	mpapp.curAnswers = data.data;      
     });
 }
 
@@ -310,8 +310,8 @@ function buildReponses(qid){
       	
       	for(i=0; i < data.data.length; i++){      		
       		if(data.data[i].link.length > 1 && i==0){      			
-      			answerBtn = $('<fieldset data-role="controlgroup" data-mini="true"><legend>'+ window.curQuestion.question +'&nbsp<a href="#descriptionPopup" data-theme="b" data-role="button" data-inline="true" data-mini="true" data-icon="info" data-transition="pop" data-rel="popup">Description</a></legend><input type="radio" name="radioAid" value="' + data.data[i].answerid + '" id="Response-' + i + '"><label for="Response-' + i + '">'+data.data[i].answer+'<br><img src="'+data.data[i].link + '"style="width:70%;"></label></fieldset>');
-	      		desc = $('<p class="black">'+window.explain+'</p>')
+      			answerBtn = $('<fieldset data-role="controlgroup" data-mini="true"><legend>'+ mpapp.curQuestion.question +'&nbsp<a href="#descriptionPopup" data-theme="b" data-role="button" data-inline="true" data-mini="true" data-icon="info" data-transition="pop" data-rel="popup">Description</a></legend><input type="radio" name="radioAid" value="' + data.data[i].answerid + '" id="Response-' + i + '"><label for="Response-' + i + '">'+data.data[i].answer+'<br><img src="'+data.data[i].link + '"style="width:70%;"></label></fieldset>');
+	      		desc = $('<p class="black">'+mpapp.explain+'</p>')
 	      		answerBtn.appendTo('#answerList').trigger( "create" );
 	      		desc.appendTo('#descriptionTxt').trigger( "create" );
 	      	}
@@ -321,8 +321,8 @@ function buildReponses(qid){
       		}
       		else{
       			if(data.data[i].link.length == 0 && i==0){  		       		   		
-		      		answerBtn = $('<fieldset data-role="controlgroup" data-mini="true"><legend>'+ window.curQuestion.question +'&nbsp<a href="#descriptionPopup" data-theme="b" data-role="button" data-inline="true" data-mini="true" data-icon="info" data-transition="pop" data-rel="popup">Description</a></legend><input type="radio" name="radioAid" value="' + data.data[i].answerid + '"id="Response-' + i + '"/><label for="Response-' + i + '">'+data.data[i].answer+'</label></fieldset>');
-		      		desc = $('<p class="black">'+window.explain+'</p>')
+		      		answerBtn = $('<fieldset data-role="controlgroup" data-mini="true"><legend>'+ mpapp.curQuestion.question +'&nbsp<a href="#descriptionPopup" data-theme="b" data-role="button" data-inline="true" data-mini="true" data-icon="info" data-transition="pop" data-rel="popup">Description</a></legend><input type="radio" name="radioAid" value="' + data.data[i].answerid + '"id="Response-' + i + '"/><label for="Response-' + i + '">'+data.data[i].answer+'</label></fieldset>');
+		      		desc = $('<p class="black">'+mpapp.explain+'</p>')
 		      		answerBtn.appendTo('#answerList').trigger( "create" );
 		      		desc.appendTo('#descriptionTxt').trigger( "create" );
 		      		
@@ -367,17 +367,17 @@ function moveQuestion(count, zoom){
 		$("#nextQuestion").css( "display", "none" );
 	}
 
-	window.curQuestion = questions[count]
-	window.qid = questions[count].qid
-	window.explain = questions[count].explain	
+	mpapp.curQuestion = questions[count]
+	mpapp.qid = questions[count].qid
+	mpapp.explain = questions[count].explain	
 	updateTitle(questions[count].question)
-	changeQuestion(window.qid)
+	changeQuestion(mpapp.qid)
 
 	if (zoom) {
-		getExtent(window.qid)
+		getExtent(mpapp.qid)
 	} 
 	
-	$.getJSON( "http://services.mapossum.org/getanswers?qid=" + window.qid + "&callback=?", function( data ) {
+	$.getJSON( "http://services.mapossum.org/getanswers?qid=" + mpapp.qid + "&callback=?", function( data ) {
 	  data.data[0].name = "All Responses"
 	  curdata = data.data
 	})
@@ -508,14 +508,14 @@ function genChart(data){
 	});
 	id = 'idChart'      					
 	var ctx = document.getElementById(id).getContext("2d");
-	window.myPie = new Chart(ctx).Pie(crtData);
+	mpapp.myPie = new Chart(ctx).Pie(crtData);
 }
 
 /* gets identify based on click event, current maptype, and buffer area */
 function identify(e){	
 	var latlon = e.latlng.lng+" "+e.latlng.lat;
     point = "Point("+ latlon + ")";	
-	$.getJSON( "http://services.mapossum.org/identify/"+window.qid+"/"+maptype+"?point="+point+"&buffer=1&callback=?", function( data ) {
+	$.getJSON( "http://services.mapossum.org/identify/"+mpapp.qid+"/"+maptype+"?point="+point+"&buffer=1&callback=?", function( data ) {
 		showChart(data.data)
 	});
 }
@@ -560,27 +560,27 @@ $("#subQues").bind('click', function(e) {
 	answerNum = $("#sliderFld").val()
 	description = $("#descriptionFld").val()
 	picture = $("#flip-b").val()
-	window.answerNum = answerNum
+	mpapp.answerNum = answerNum
 	hash = $("#hashFld").val()
 	hash1 = hash.replace("#", "");
 	hashtag = hash1.trim();	
 
-	if(window.userid == null){		
+	if(mpapp.userid == null){		
 		alert("Please login to create a question")
 		$( "#login" ).panel( "open");  		
 	}
 	else{
-		addQuestion(window.userid, question, hashtag, description)
+		addQuestion(mpapp.userid, question, hashtag, description)
 	}
 });
 
 $("#subAnswer").bind('click', function(e) {	 
 	//console.log('sub Clicked')
-	addAnswer(window.qid)
+	addAnswer(mpapp.qid)
 });
 
 $("#answerQuestion").bind('click', function(e) {	 
-	buildReponses(window.curQuestion.qid);
+	buildReponses(mpapp.curQuestion.qid);
 });
 
 $("#isp").bind('click', function(){	
@@ -601,7 +601,7 @@ $("#subResponse").bind('click', function() {
 	    alert("Please set your location below.")
 	    $( "#responses" ).panel( "open");
     } else {
-        addResponse(window.curQuestion.qid, aid, curlatlon)
+        addResponse(mpapp.curQuestion.qid, aid, curlatlon)
     }
 });
 
@@ -663,7 +663,7 @@ $("#legend").bind('click', function(){
 })
 
 $("#globe").bind('click', function(){
-	getExtent(window.qid)
+	getExtent(mpapp.qid)
 })
 
 
@@ -676,7 +676,7 @@ $("#acc").bind('click', function(){
 		accUpdate.appendTo('#accountDiv').trigger( "create" )		
 	}
 	else{
-		accUpdate = $('<h3>Welcome '+window.first+ ' ' + window.last +'</h3>')
+		accUpdate = $('<h3>Welcome '+mpapp.first+ ' ' + mpapp.last +'</h3>')
 		accUpdate.appendTo('#accountDiv').trigger( "create" )	
 		$.each(userAcc,function(index, item) {
     		accUpdate = $('<div><p><b>Question:</b> '+userAcc[index].question+'</p><p><b>Hashtag:</b> '+userAcc[index].hashtag+'</p><p><b>Direct link: </b>http://mapossum.org/?qid='+userAcc[index].qid+'</p></div><canvas class="charts" id="chart-'+index+'"></canvas><br>')
@@ -692,7 +692,7 @@ $("#acc").bind('click', function(){
       			});  
 			id = 'chart-'+index      					
 			var ctx = document.getElementById(id).getContext("2d");
-			window.myPie = new Chart(ctx).Pie(pieData);
+			mpapp.myPie = new Chart(ctx).Pie(pieData);
       			     				 
     			
     		});		
