@@ -51,12 +51,7 @@ getLocation();
 getQuestions();
 
 map.on('move', function(e) {
-    b = map.getBounds()
-    c = map.getCenter()
-    //console.log(c);
-    //console.log(b._northEast.lat, b._northEast.lng, b._southWest.lat, b._southWest.lng); // e is an event object (MouseEvent in this case)
-    
-    //http://nominatim.openstreetmap.org/reverse?format=xml&lat=52.5487429714954&lon=-1.81602098644987&zoom=18&addressdetails=1
+    updateHash();
 });
 
 $( ".leaflet-control-attribution" ).css( "display", "none" );
@@ -64,8 +59,7 @@ $( ".leaflet-control-attribution" ).css( "display", "none" );
 /* verify user login information -- if successful, user questions are stored for the account page*/
 function verify(email, password){
     $.getJSON( "http://services.mapossum.org/verify?email=" + email + "&password=" + password + "&callback=?", function( data ) {
-      window.userid = data.userid
-      console.log(data)
+      window.userid = data.userid;
       if(data.userid != -1){
         localStorage.setItem("semail", email)
         localStorage.setItem("spassword", password)
@@ -192,10 +186,58 @@ function getParameterByName(name) {
     return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
+function updateHash() {
+	
+	bh = []
+	c = map.getCenter();
+	//b = map.getBounds()
+	//lngdif = b._northEast.lng - b._southWest.lng;
+	//latdif = b._northEast.lat - b._southWest.lat;
+	
+	//lngd = (lngdif - (lngdif * 0.75)) / 2;
+	//latd = (latdif - (latdif * 0.75)) / 2;
+	
+	bh.push(questions[count].qid);
+	bh.push(maptype);
+	bh.push(map.getZoom())
+	bh.push(c.lat);
+	bh.push(c.lng);
+	//bh.push((b._southWest.lat + latdif).toFixed(3));
+	//bh.push((b._southWest.lng + lngdif).toFixed(3));
+	//bh.push((b._northEast.lat - latdif).toFixed(3));
+	//bh.push((b._northEast.lng - lngdif).toFixed(3));
+	
+	window.location.hash = bh.join("|")
+}
+
 /* retreive questions out of the database, push inital question tiles, and update title information*/
 function getQuestions(){
 	queryQuestion = parseInt(getParameterByName("qid"));
 	maptype = getParameterByName("maptype");
+	
+	hashy = (window.location.hash);
+	hashy = hashy.replace("#","");
+	
+	hashvals = hashy.split("|");
+	
+	var bounds;
+	
+	if (hashvals.length > 2) {
+		
+		//console.log(hashvals);
+		//bounds = [[hashvals[2], hashvals[3]],[hashvals[4], hashvals[5]]]
+		map.setView([hashvals[3],hashvals[4]],(hashvals[2]));
+		
+
+	}
+	
+	if (hashvals.length > 1) {
+		maptype = hashvals[1];
+	}
+	
+	if (hashvals.length > 0) {
+		queryQuestion = hashvals[0];
+	}
 
 	
 	if (maptype == "") {
@@ -230,7 +272,8 @@ function getQuestions(){
 					iv = d.getTime(); 
 					mapossumLayer = L.tileLayer('http://maps.mapossum.org/{qid}/{maptype}/{z}/{x}/{y}.png?v={v}', {maptype: maptype, qid:nowqid, v: iv, opacity: 0.7})
 		    		mapossumLayer.addTo(map);
-		    		moveQuestion(count)
+		    		moveQuestion(count, false)
+		    		
 		    		
 		});
 		
@@ -302,8 +345,10 @@ function addResponse(qid, answerid, loc){
 
 
 /* moves to the previous question in the footer navigation */
-function moveQuestion(count){
+function moveQuestion(count, zoom){
 
+	if (zoom == undefined) {zoom = true}
+	
 	$("#previousQuestion").css( "display", "" );
 	$("#nextQuestion").css( "display", "" );
 	
@@ -320,7 +365,10 @@ function moveQuestion(count){
 	window.explain = questions[count].explain	
 	updateTitle(questions[count].question)
 	changeQuestion(window.qid)
-	getExtent(window.qid)
+	
+	if (zoom) {
+		getExtent(window.qid)
+	} 
 	
 	$.getJSON( "http://services.mapossum.org/getanswers?qid=" + window.qid + "&callback=?", function( data ) {
 	  data.data[0].name = "All Responses"
@@ -330,6 +378,7 @@ function moveQuestion(count){
 }
 
 /* runs the set up map event on the server which builds all the configuration files */
+/* It also adds the quesition to the question list being maintained on the front end. */
 function setUpMap(quesid){
 	$.getJSON( "http://services.mapossum.org/setupmaps?qid=" + quesid + "&callback=?", function( data ) {
 		$.getJSON( "http://services.mapossum.org/getquestions?qids=" + quesid + "&minutes=0" + "&callback=?", function( newq ) {
@@ -361,7 +410,8 @@ function changeQuestion(qid) {
 function changemapType(newMapType) {
 	maptype = newMapType
  	mapossumLayer.options.maptype = newMapType
- 	mapossumLayer.redraw()
+ 	mapossumLayer.redraw();
+ 	updateHash();
 }
 
 /* retreives a lat/long for a location and pans to that location */
@@ -393,7 +443,7 @@ function getExtent(qid){
 
 /* fits a questions extent in the map view */
 function fitBounds(bounds){	
-	map.fitBounds(bounds);
+	map.fitBounds(bounds, {padding:0});
 }
 
 /* reformats lat/long to be used */
