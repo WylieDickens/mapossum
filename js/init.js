@@ -215,35 +215,38 @@ function getQuestions(){
 	queryQuestion = parseInt(getParameterByName("qid"));
 	maptype = getParameterByName("maptype");
 	
-	hashy = (window.location.hash);
-	hashy = hashy.replace("#","");
-	
-	hashvals = hashy.split("|");
-	
-	var bounds;
-	
-	if (hashvals.length > 2) {
-		
-		//console.log(hashvals);
-		//bounds = [[hashvals[2], hashvals[3]],[hashvals[4], hashvals[5]]]
-		map.setView([hashvals[3],hashvals[4]],(hashvals[2]));
-		
-
-	}
-	
-	if (hashvals.length > 1) {
-		maptype = hashvals[1];
-	}
-	
-	if (hashvals.length > 0) {
-		queryQuestion = hashvals[0];
-	}
-
-	
 	if (maptype == "") {
 		maptype = "subs"
 	}
+
 	
+	hashy = (window.location.hash);
+	hashy = hashy.replace("#","");
+	
+	moveit = true;
+	if (hashy != "") {
+		hashvals = hashy.split("|");
+		
+		var bounds;
+		
+		if (hashvals.length > 2) {
+			
+			//console.log(hashvals);
+			//bounds = [[hashvals[2], hashvals[3]],[hashvals[4], hashvals[5]]]
+			map.setView([hashvals[3],hashvals[4]],(hashvals[2]));
+			moveit = false;
+			
+		}
+		
+		if (hashvals.length > 1) {
+			maptype = hashvals[1];
+		}
+		
+		if (hashvals.length > 0) {
+			queryQuestion = hashvals[0];
+		}
+	}
+
 	console.log(queryQuestion)
 	console.log("http://services.mapossum.org/getquestions?count=1000&hasanswers=true&qids="+queryQuestion)
 	
@@ -272,7 +275,7 @@ function getQuestions(){
 					iv = d.getTime(); 
 					mapossumLayer = L.tileLayer('http://maps.mapossum.org/{qid}/{maptype}/{z}/{x}/{y}.png?v={v}', {maptype: maptype, qid:nowqid, v: iv, opacity: 0.7})
 		    		mapossumLayer.addTo(map);
-		    		moveQuestion(count, false)
+		    		moveQuestion(count, moveit)
 		    		
 		    		
 		});
