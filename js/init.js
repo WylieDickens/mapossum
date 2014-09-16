@@ -188,26 +188,30 @@ function getParameterByName(name) {
 
 function updateHash() {
 	
-	bh = []
-	c = map.getCenter();
-	//b = map.getBounds()
-	//lngdif = b._northEast.lng - b._southWest.lng;
-	//latdif = b._northEast.lat - b._southWest.lat;
-	
-	//lngd = (lngdif - (lngdif * 0.75)) / 2;
-	//latd = (latdif - (latdif * 0.75)) / 2;
-	
-	bh.push(questions[count].qid);
-	bh.push(maptype);
-	bh.push(map.getZoom())
-	bh.push(c.lat);
-	bh.push(c.lng);
-	//bh.push((b._southWest.lat + latdif).toFixed(3));
-	//bh.push((b._southWest.lng + lngdif).toFixed(3));
-	//bh.push((b._northEast.lat - latdif).toFixed(3));
-	//bh.push((b._northEast.lng - lngdif).toFixed(3));
-	
-	window.location.hash = bh.join("|")
+	try {
+		bh = []
+		c = map.getCenter();
+		//b = map.getBounds()
+		//lngdif = b._northEast.lng - b._southWest.lng;
+		//latdif = b._northEast.lat - b._southWest.lat;
+		
+		//lngd = (lngdif - (lngdif * 0.75)) / 2;
+		//latd = (latdif - (latdif * 0.75)) / 2;
+		
+		bh.push(questions[count].qid);
+		bh.push(maptype);
+		bh.push(map.getZoom())
+		bh.push(c.lat);
+		bh.push(c.lng);
+		//bh.push((b._southWest.lat + latdif).toFixed(3));
+		//bh.push((b._southWest.lng + lngdif).toFixed(3));
+		//bh.push((b._northEast.lat - latdif).toFixed(3));
+		//bh.push((b._northEast.lng - lngdif).toFixed(3));
+		
+		window.location.hash = bh.join("|")
+	} catch(e) {
+		console.log('hash not set');
+	}
 }
 
 /* retreive questions out of the database, push inital question tiles, and update title information*/
@@ -368,7 +372,7 @@ function moveQuestion(count, zoom){
 	window.explain = questions[count].explain	
 	updateTitle(questions[count].question)
 	changeQuestion(window.qid)
-	
+
 	if (zoom) {
 		getExtent(window.qid)
 	} 
