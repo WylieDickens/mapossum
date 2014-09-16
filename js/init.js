@@ -10,6 +10,7 @@ $( "#boundaryMenu" ).popup({ overlayTheme: "b" });
 $( "#legendPopup" ).popup({ overlayTheme: "b" });
 $( "#descriptionPopup" ).popup({ overlayTheme: "b"});
 $("#pnlIdent").panel({});
+$("#pnlShare").panel({});
 	
 var map = L.map('map', {trackResize:true, maxZoom:16});
 
@@ -250,9 +251,6 @@ function getQuestions(){
 			queryQuestion = hashvals[0];
 		}
 	}
-
-	console.log(queryQuestion)
-	console.log("http://services.mapossum.org/getquestions?count=1000&hasanswers=true&qids="+queryQuestion)
 	
 	params = {"count":1000, "hasanswers":true}
 	
@@ -664,6 +662,12 @@ $("#legend").bind('click', function(){
 
 $("#globe").bind('click', function(){
 	getExtent(mpapp.qid)
+})
+
+$("#share").bind('click', function(){
+	txtLink = $('<a target="_blank" href="'+document.URL+'">'+document.URL+'</a>')
+	txtLink.appendTo('#shareLink').trigger( "create" )	
+	$( "#pnlShare" ).panel( "open");
 })
 
 

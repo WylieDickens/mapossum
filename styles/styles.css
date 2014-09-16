@@ -9,10 +9,6 @@
     font-family: Impact, Charcoal, sans-serif;
 }
 
-.ui-header{
-	background-color: gray;
-}
-
 [data-role=footer]{bottom:0; position:absolute !important; top: auto !important; width:100%;} 
 
 .ui-dialog-contain {
@@ -24,9 +20,24 @@
 	top: -15px;
 }
 
-body {
-	padding: 0;
+html, body, #map {
+    height: 100%;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    padding: 0;
 	margin: 0;
+}
+
+.ui-header{
+	background-color: gray;
+}
+
+#map {
+    cursor: pointer !important;
+}
+
+/* Mouse Down */
+#map:active {
+    cursor: move !important;
 }
 
 .white{
@@ -47,44 +58,20 @@ body {
 	background-color:#FFFFFF;
 }
 
-html, body, #map {
-    height: 100%;
-    font-family: "Trebuchet MS", Helvetica, sans-serif;
-}
-
-#map {
-    cursor: pointer !important;
-}
-
-/* Mouse Down */
-#map:active {
-    cursor: move !important;
-}
-
-h1,h2, h3, h4, b{
-	font-family: "Trebuchet MS", Helvetica, sans-serif;
-}
 h4{
-	font-size: 14px;
-}
-
-.label{
-	font-family: "Trebuchet MS", Helvetica, sans-serif;
-	font-weight: normal;
-	font-size:small;
-	
+	font-size: 16px;
 }
 
 #globe{
 	position:absolute;
 	left:10px;
-	top:75px;
+	top:80px;
 }
 
 #legend{
 	position:absolute;
 	left:10px;
-	top:105px;
+	top:110px;
 }
 
 #boundaryChange{
@@ -92,29 +79,23 @@ h4{
 	left:10px;
 	top:140px;
 }
-/* Start with core styles outside of a media query that apply to mobile and up */
-/* Global typography and design elements, stacked containers */
-body { font-family: "Trebuchet MS", Helvetica, sans-serif; }
 
-/*a:link { color:purple; }*/
-
-/* Stack the two content containers */
-.main,
-.sidebar { display:block; width:100%; }
-
-/* First breakpoint at 576px */
-/* Inherits mobile styles, but floats containers to make columns */
-@media all and (min-width: 36em){
-	.main { float: left; width:60%; }
-	.sidebar { float: left; width:40%; }
+#share{
+	position:absolute;
+	right:6px;
+	top:6px;
 }
 
-/* Second breakpoint at 800px */
-/* Adjusts column proportions, tweaks base H1 */
-@media all and (min-width: 50em){
-	.main { width:70%; }
-	.sidebar { width:30%; }
+@media all and (max-width: 24em) {
+    .portrait {
+	  	padding:2px;
+	    font-size: 11px;
+    }
+}
 
-	/* You can also tweak any other styles in a breakpoint 
-	H1 { color: blue; font-size:1.2em }*/
+@media all and (max-width: 120em) and (min-width:25em){
+    .portrait {
+	  	padding:2px;
+	    font-size: 15px;
+    }
 }
