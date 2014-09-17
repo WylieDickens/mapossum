@@ -86,6 +86,13 @@ h4{
 	top:6px;
 }
 
+#maplegend {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+	z-Index: 4000;
+  }
+
 @media all and (max-width: 24em) {
     .portrait {
 	  	padding:2px;

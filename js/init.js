@@ -11,6 +11,7 @@ $( "#legendPopup" ).popup({ overlayTheme: "b" });
 $( "#descriptionPopup" ).popup({ overlayTheme: "b"});
 $("#pnlIdent").panel({});
 $("#pnlShare").panel({});
+
 	
 var map = L.map('map', {trackResize:true, maxZoom:16});
 
@@ -452,6 +453,10 @@ function getLegend(qid){
 	$("#legendPic").empty();	    	
 	legendImage = $('<img src="http://services.mapossum.org/legend/'+qid+'?opacity=0&color=white" width="230">')
 	legendImage.appendTo('#legendPic').trigger( "create" )
+	
+	$("#maplegend").empty();	    	
+	legendImage = $('<img src="http://services.mapossum.org/legend/'+qid+'?opacity=0&color=white" width="180">')
+	legendImage.appendTo('#maplegend').trigger( "create" )
  
 }
 
@@ -679,5 +684,19 @@ $("#acc").bind('click', function(){
 	}
 });
 
+function checkWidth() {
+        var windowsize = $(window).width();
+        if (windowsize > 600) {
+            // if GT assum legend can be displayed
+			$( "#maplegend" ).css( "display", "" );
+        } else {
+			$( "#maplegend" ).css( "display", "none" );
+		}
+    }
+	
+$(window).resize(checkWidth);
+
+checkWidth()
 
 });
+
