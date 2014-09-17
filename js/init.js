@@ -667,6 +667,7 @@ $("#globe").bind('click', function(){
 $("#share").bind('click', function(){
 	// txtLink = $('<a target="_blank" href="'+document.URL+'">'+document.URL+'</a>')		
 	// txtLink = $('<label for="dLink">Direct Link:</label><textarea name="textarea" id="dLink"'+ ">"+document.URL+"</textarea>")
+	$("#dLink").empty();
 	link = document.URL	
 	$('#dLink').append(link)
 	//link.appendTo('#dLink').trigger( "create" )
