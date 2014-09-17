@@ -21,8 +21,6 @@ var bwlayer = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 	maxZoom: 16
 });
 
-// replace "toner" here with "terrain" or "watercolor"
-//var bwlayer = new L.StamenTileLayer("watercolor");
 map.addLayer(bwlayer);
 
 //this code is a hack to distiguish single clicks from double clicks
@@ -43,10 +41,6 @@ map.on('click', function(e) {
 	
   }
 });
-
-// old identify that fires both on single and double clicks
-//map.on('click', identify);
-//popup = L.popup();
 
 getLocation();
 getQuestions();
@@ -154,8 +148,7 @@ function addAnswer(qid){
 	   		mpapp.picture = $(pictureDiv).val()
 	   		$.getJSON( "http://services.mapossum.org/addanswer?qid=" + mpapp.qid + "&answer=" + mpapp.answer +"&link=" + mpapp.picture + "&callback=?", function( data ) {
 	          	if(answerCount == mpapp.answerNum){
-	          		setUpMap(mpapp.qid);
-					//mpapp.location.href = "http://mapossum.org/?qid="+ mpapp.qid;					
+	          		setUpMap(mpapp.qid);			
 				}      
 				answerCount++
 	    	});
@@ -168,8 +161,7 @@ function addAnswer(qid){
 	   		mpapp.answer = $(answerDiv).val()	
 	   		$.getJSON( "http://services.mapossum.org/addanswer?qid=" + mpapp.qid + "&answer=" + mpapp.answer +"&callback=?", function( data ) {
 	   			if(answerCount == mpapp.answerNum){								
-					setUpMap(mpapp.qid);		
-					//mpapp.location.href = "http://mapossum.org/?qid="+ mpapp.qid;			
+					setUpMap(mpapp.qid);				
 				}	
 				answerCount++				
 	    	});	
@@ -187,28 +179,15 @@ function getParameterByName(name) {
     return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
-function updateHash() {
-	
+function updateHash() {	
 	try {
 		bh = []
 		c = map.getCenter();
-		//b = map.getBounds()
-		//lngdif = b._northEast.lng - b._southWest.lng;
-		//latdif = b._northEast.lat - b._southWest.lat;
-		
-		//lngd = (lngdif - (lngdif * 0.75)) / 2;
-		//latd = (latdif - (latdif * 0.75)) / 2;
-		
 		bh.push(questions[count].qid);
 		bh.push(maptype);
 		bh.push(map.getZoom())
 		bh.push(c.lat);
 		bh.push(c.lng);
-		//bh.push((b._southWest.lat + latdif).toFixed(3));
-		//bh.push((b._southWest.lng + lngdif).toFixed(3));
-		//bh.push((b._northEast.lat - latdif).toFixed(3));
-		//bh.push((b._northEast.lng - lngdif).toFixed(3));
-		
 		window.location.hash = bh.join("|")
 	} catch(e) {
 		console.log('hash not set');
@@ -223,24 +202,19 @@ function getQuestions(){
 	if (maptype == "") {
 		maptype = "subs"
 	}
-
 	
 	hashy = (window.location.hash);
-	hashy = hashy.replace("#","");
-	
+	hashy = hashy.replace("#","");	
 	moveit = true;
+
 	if (hashy != "") {
 		hashvals = hashy.split("|");
 		
 		var bounds;
 		
 		if (hashvals.length > 2) {
-			
-			//console.log(hashvals);
-			//bounds = [[hashvals[2], hashvals[3]],[hashvals[4], hashvals[5]]]
 			map.setView([hashvals[3],hashvals[4]],(hashvals[2]));
-			moveit = false;
-			
+			moveit = false;			
 		}
 		
 		if (hashvals.length > 1) {
@@ -255,10 +229,8 @@ function getQuestions(){
 	params = {"count":1000, "hasanswers":true}
 	
 	if(queryQuestion > 0){		
-	
 		params.qid = queryQuestion
-		
-		}
+	}
 			
 	$.getJSON( "http://services.mapossum.org/getquestions?callback=?",params, function( data ) {
 			questions = data.data;
@@ -273,15 +245,12 @@ function getQuestions(){
 				  }
 				}
 
-					d = new Date();
-					iv = d.getTime(); 
-					mapossumLayer = L.tileLayer('http://maps.mapossum.org/{qid}/{maptype}/{z}/{x}/{y}.png?v={v}', {maptype: maptype, qid:nowqid, v: iv, opacity: 0.7})
-		    		mapossumLayer.addTo(map);
-		    		moveQuestion(count, moveit)
-		    		
-		    		
-		});
-		
+				d = new Date();
+				iv = d.getTime(); 
+				mapossumLayer = L.tileLayer('http://maps.mapossum.org/{qid}/{maptype}/{z}/{x}/{y}.png?v={v}', {maptype: maptype, qid:nowqid, v: iv, opacity: 0.7})
+	    		mapossumLayer.addTo(map);
+	    		moveQuestion(count, moveit)		    		
+		});		
 }
 
 /* update quesiton title information in the footer */
@@ -323,13 +292,10 @@ function buildReponses(qid){
 		      		desc = $('<p class="black">'+mpapp.explain+'</p>')
 		      		answerBtn.appendTo('#answerList').trigger( "create" );
 		      		desc.appendTo('#descriptionTxt').trigger( "create" );
-		      		
-
 	      		}
 	      		else{
 	      			answerBtn = $('<fieldset data-role="controlgroup" data-mini="true"><input type="radio" name="radioAid" value="' + data.data[i].answerid + '"id="Response-' + i + '"/><label for="Response-' + i + '">'+data.data[i].answer+'</label></fieldset>');
 	      			answerBtn.appendTo('#answerList').trigger( "create" );
-
 	      		}
       		}
       	}      	    
@@ -345,13 +311,11 @@ function addResponse(qid, answerid, loc){
       mapossumLayer.options.v = v;
 	  mapossumLayer.redraw()	
     });
-
 }
 
 
 /* moves to the previous question in the footer navigation */
 function moveQuestion(count, zoom){
-
 	if (zoom == undefined) {zoom = true}
 	
 	$("#previousQuestion").css( "display", "" );
@@ -386,10 +350,8 @@ function moveQuestion(count, zoom){
 /* It also adds the quesition to the question list being maintained on the front end. */
 function setUpMap(quesid){
 	$.getJSON( "http://services.mapossum.org/setupmaps?qid=" + quesid + "&callback=?", function( data ) {
-		$.getJSON( "http://services.mapossum.org/getquestions?qids=" + quesid + "&minutes=0" + "&callback=?", function( newq ) {
-			
-			questions.push(newq.data[0]);
-			
+		$.getJSON( "http://services.mapossum.org/getquestions?qids=" + quesid + "&minutes=0" + "&callback=?", function( newq ) {			
+			questions.push(newq.data[0]);			
 			count = 0;
 			for(i=0;i<questions.length;i++){			
 				if(questions[i].qid == quesid){
@@ -397,9 +359,7 @@ function setUpMap(quesid){
 					nowqid = quesid;
 				  }
 				}
-
-		    moveQuestion(count)
-			
+		    moveQuestion(count)			
 		});
 	});
 }
@@ -459,10 +419,8 @@ function formatLoc(position) {
 }
 
 function setcurlatlon(xlng,ylat) {
-	 curlatlon = "Point("+ xlng + " " + ylat +")";
-	 
-	 $.getJSON( "http://nominatim.openstreetmap.org/reverse?format=json&lat=" + ylat + "&lon=" + xlng + "&zoom=18&addressdetails=1", function( data ) { 
-	 	    
+	 curlatlon = "Point("+ xlng + " " + ylat +")";	 
+	 $.getJSON( "http://nominatim.openstreetmap.org/reverse?format=json&lat=" + ylat + "&lon=" + xlng + "&zoom=18&addressdetails=1", function( data ) { 	 	    
 	 		$("#curLocationText").html( "<h4>Current Response Position: <h4><small>Lat: " + ylat.toFixed(3) + " " + "Lon: " + xlng.toFixed(3) + "<br>" + "<br>Which is near:<br>" + data.display_name  + "</small>");
 	 })
 }
@@ -572,8 +530,7 @@ $("#subQues").bind('click', function(e) {
 	}
 });
 
-$("#subAnswer").bind('click', function(e) {	 
-	//console.log('sub Clicked')
+$("#subAnswer").bind('click', function(e) {	
 	addAnswer(mpapp.qid)
 });
 
