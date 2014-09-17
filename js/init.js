@@ -46,7 +46,7 @@ map.on('click', function(e) {
 
 // old identify that fires both on single and double clicks
 //map.on('click', identify);
-popup = L.popup();
+//popup = L.popup();
 
 getLocation();
 getQuestions();
