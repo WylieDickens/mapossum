@@ -16,7 +16,7 @@ var map = L.map('map', {trackResize:true, maxZoom:16});
 
 map.attributionControl.addAttribution("&copy Mapossum");
 
-var bwlayer = L.tileLayer('http://openmapsurfer.uni-hd.de/tiles/roadsg/x={x}&y={y}&z={z}', {
+var bwlayer = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 	minZoom: 0,
 	maxZoom: 16
 });
@@ -664,17 +664,15 @@ $("#globe").bind('click', function(){
 	getExtent(mpapp.qid)
 })
 
+
 $("#share").bind('click', function(){
-	// txtLink = $('<a target="_blank" href="'+document.URL+'">'+document.URL+'</a>')		
-	// txtLink = $('<label for="dLink">Direct Link:</label><textarea name="textarea" id="dLink"'+ ">"+document.URL+"</textarea>")
+
+$( "#pnlShare" ).panel( "open");
+
 	$("#dLink").empty();
 	link = document.URL	
 	$('#dLink').append(link)
-	//link.appendTo('#dLink').trigger( "create" )
-	// console.log(document.URL)
-	// txtLink = $('<a href="https://twitter.com/intent/tweet?url='+document.URL+'">Tweet</a>')
-	// txtLink.appendTo('#tweety').trigger( "create" )
-	$( "#pnlShare" ).panel( "open");
+		
 })
 
 
