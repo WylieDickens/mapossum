@@ -665,8 +665,14 @@ $("#globe").bind('click', function(){
 })
 
 $("#share").bind('click', function(){
-	txtLink = $('<a target="_blank" href="'+document.URL+'">'+document.URL+'</a>')
-	txtLink.appendTo('#shareLink').trigger( "create" )	
+	// txtLink = $('<a target="_blank" href="'+document.URL+'">'+document.URL+'</a>')		
+	// txtLink = $('<label for="dLink">Direct Link:</label><textarea name="textarea" id="dLink"'+ ">"+document.URL+"</textarea>")
+	link = document.URL	
+	$('#dLink').append(link)
+	//link.appendTo('#dLink').trigger( "create" )
+	// console.log(document.URL)
+	// txtLink = $('<a href="https://twitter.com/intent/tweet?url='+document.URL+'">Tweet</a>')
+	// txtLink.appendTo('#tweety').trigger( "create" )
 	$( "#pnlShare" ).panel( "open");
 })
 

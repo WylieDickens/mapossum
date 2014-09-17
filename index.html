@@ -252,10 +252,18 @@
 <div data-role="panel" data-position="right" data-position-fixed="false" data-display="overlay" id="pnlShare" data-theme="b">
 
 		<h2>Share options</h2>
-		<h4>Direct Link:</h4>
-		<p>Copy link below to link directly to the current question with the same zoom level and map extent:</p>
-		<div id="shareLink"></div>
+		
+		<!-- <div class="ui-field-contain">
+			<div id="shareLink"></div>
+		</div> -->
 
+		<div class="ui-field-contain">
+			<label for="dLink">Direct Link:</label>
+			<textarea name="textarea" id="dLink"></textarea>
+		</div>
+
+		<!-- <div id="tweety"></div> -->
+		
 		<!-- <h4>Social Media:</h4>
 		<div class="fb-share-button" id="fb-root" data-href=""+document.url+""></div>
 		<div class="fb-share-button" data-href="htpp://mapossum.org"></div> -->
@@ -308,23 +316,6 @@
 		</div>  
 	</div>
 </div>
-<script>
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '809381929114371',
-      xfbml      : true,
-      version    : 'v2.1'
-    });
-  };
-
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "//connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
-</script>
 </body>
 </html>
 
