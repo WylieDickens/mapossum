@@ -495,6 +495,10 @@ function showChart(data) {
 	
 }
 
+function updateUrl(height, width){
+	$('#eLink').html("<iframe src='index.html' style='width:"+height+"px;height:"+width+"px' frameborder='none'><p>Your browser does not support iframes.</p></iframe>")
+}
+
 /* click events */
 $("#verify").bind('click', function(e) {
 	email = $("#txtUsername").val()
@@ -623,15 +627,19 @@ $("#globe").bind('click', function(){
 
 
 $("#share").bind('click', function(){
+	$( "#pnlShare" ).panel( "open");
+	$('#dLink').html(document.URL)
+	height = $('#sldHeight').val()
+	width =$('#sldWidth').val()
+	$('#eLink').html("<iframe src='index.html' style='width:"+height+"px;height:"+width+"px' frameborder='none'><p>Your browser does not support iframes.</p></iframe>")
 
-$( "#pnlShare" ).panel( "open");
-
-	$("#dLink").empty();
-	link = document.URL	
-	$('#dLink').append(link)
-		
 })
 
+$( "#sldHeight, #sldWidth" ).bind( "change", function(event, ui) {
+	height = $('#sldHeight').val()
+	width =$('#sldWidth').val()
+	updateUrl(height,width)
+});
 
 $("#acc").bind('click', function(){
 	$("#accountDiv").empty();
