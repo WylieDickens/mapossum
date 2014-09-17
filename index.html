@@ -10,16 +10,18 @@
 	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />	
 	<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" />
 	<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.css" />
+	<link rel="stylesheet" href="styles/jquery.share.css" />
 	<link rel="stylesheet" href="styles/styles.css" />
 	<!-- js -->
 	<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>	
 	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>	
 	<script src="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.js"></script>	
+	<script src="js/jquery.share.js"></script>
+	
 	<!--<script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.3.0"></script>-->
 </head>
 
 <body>
-
 
 	<div data-role="page" class="ui-responsive-panel" id="home" data-theme="b" >
     	<div data-role="header" style="background-color:#2F4F4F;">
@@ -257,6 +259,10 @@
 
 		<h2>Share options</h2>
 
+		
+		<div id="facbookshare">
+		</div>
+		
 		<div class="ui-field-contain">
 			<label for="dLink">Direct Link:</label>
 			<textarea name="textarea" id="dLink"></textarea>
@@ -267,7 +273,7 @@
 			<textarea name="textarea" id="eLink"></textarea>
 		</div>		
 		<div data-role="fieldcontain">
-		<h4>Update map size below:</h4>
+		<h4>Update embeded map size :</h4>
 			<p>Height:</p>
 		 	<input type="range" name="slider" id="sldHeight" value="400" min="50" max="2000" data-highlight="true" data-mini="true" step="50"/>
 		</div>
@@ -276,6 +282,7 @@
 			<p>Width:</p>
 		 	<input type="range" name="slider" id="sldWidth" value="400" min="50" max="2000" data-highlight="true" data-mini="true" step="50"/>
 		</div>
+		
 
 		<!-- <div id="tweety"></div> -->
 		

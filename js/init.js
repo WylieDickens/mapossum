@@ -495,8 +495,8 @@ function showChart(data) {
 	
 }
 
-function updateUrl(height, width){
-	$('#eLink').html("<iframe src='index.html' style='width:"+height+"px;height:"+width+"px' frameborder='none'><p>Your browser does not support iframes.</p></iframe>")
+function updateUrl(){
+	$('#eLink').html("<iframe src='index.html' style='width:"+$('#sldWidth').val()+"px;height:"+$('#sldHeight').val()+"px' frameborder='none'></iframe>")
 }
 
 /* click events */
@@ -628,17 +628,22 @@ $("#globe").bind('click', function(){
 
 $("#share").bind('click', function(){
 	$( "#pnlShare" ).panel( "open");
-	$('#dLink').html(document.URL)
-	height = $('#sldHeight').val()
-	width =$('#sldWidth').val()
-	$('#eLink').html("<iframe src='index.html' style='width:"+height+"px;height:"+width+"px' frameborder='none'><p>Your browser does not support iframes.</p></iframe>")
+	urlout = document.URL //.replace("#","%23")
+	$('#dLink').html(urlout);
+	$("#facbookshare").empty();
+	
+	$('#facbookshare').share({
+        networks: ['email','pinterest','tumblr','googleplus','digg','in1','facebook','twitter','linkedin','stumbleupon'],
+        theme: 'square',
+		urlToShare: urlout
+    });
+			
+	updateUrl()
 
 })
 
 $( "#sldHeight, #sldWidth" ).bind( "change", function(event, ui) {
-	height = $('#sldHeight').val()
-	width =$('#sldWidth').val()
-	updateUrl(height,width)
+	updateUrl()
 });
 
 $("#acc").bind('click', function(){
