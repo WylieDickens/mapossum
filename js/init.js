@@ -258,7 +258,7 @@ function getQuestions(){
 /* update quesiton title information in the footer */
 function updateTitle(layoutQuestion){	
 	$("#curQuestion").html( '<center>' + layoutQuestion + '</center>' );
-	$("#curQuestion").css('font-size', "30px");
+
 	$("#curQuestion").autoSizr();	
 }
 
