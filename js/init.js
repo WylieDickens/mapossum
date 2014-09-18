@@ -630,6 +630,8 @@ $("#globe").bind('click', function(){
 	getExtent(mpapp.qid)
 })
 
+$( "#add, #login, #createQuestion, #addAnswers, #responses, #searchLocation, #contactInfo, #about, #help, #pnlShare, #pnlIdent  " ).panel({ swipeClose: false });
+
 
 $("#share").bind('click', function(){
 	$( "#pnlShare" ).panel( "open");
