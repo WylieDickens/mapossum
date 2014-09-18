@@ -684,6 +684,10 @@ $("#acc").bind('click', function(){
 	}
 });
 
+$(document).bind("orientationchange", function(e){
+      $(window).trigger("throttledresize")
+});
+
 function checkWidth() {
         var windowsize = $(window).width();
         if (windowsize > 600) {
