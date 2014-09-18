@@ -257,7 +257,7 @@ function getQuestions(){
 
 /* update quesiton title information in the footer */
 function updateTitle(layoutQuestion){	
-	$("#curQuestion").html( '<center><h3>' + layoutQuestion + '</h3></center>' );
+	$("#curQuestion").html( '<center>' + layoutQuestion + '</center>' );
 
 	$("#curQuestion").autoSizr();	
 }
@@ -695,6 +695,7 @@ $(document).bind("orientationchange", function(e){
 
 function checkWidth() {
         var windowsize = $(window).width();
+		$("#curQuestion").css('font-size', "30px");
 		$("#curQuestion").autoSizr();
         if (windowsize > 800) {
             // if GT assum legend can be displayed
@@ -720,8 +721,6 @@ $.fn.autoSizr = function () {
     return;
   }
   _results = [];
-   el = elements[_i];
-  $(el).css('font-size', '99px');
   for (_i = 0, _len = elements.length; _i < _len; _i++) {
     el = elements[_i];
     _results.push((function(el) {
