@@ -3,6 +3,7 @@ var questions={},count = 0, curlatlon, picture, answerCount, loc, curExtent, log
 var userAcc=[];
 var mapossumLayer;
 var testingChart;
+var legendsize = 150;
 
 $( window ).load(function() {
 
@@ -256,7 +257,9 @@ function getQuestions(){
 
 /* update quesiton title information in the footer */
 function updateTitle(layoutQuestion){	
-	$("#curQuestion").html( '<center><h3>' + layoutQuestion + '</h3></center>' );	
+	$("#curQuestion").html( '<center><h3>' + layoutQuestion + '</h3></center>' );
+
+	$("#curQuestion").autoSizr();	
 }
 
 /* get possible answers for a question*/
@@ -455,7 +458,7 @@ function getLegend(qid){
 	legendImage.appendTo('#legendPic').trigger( "create" )
 	
 	$("#maplegend").empty();	    	
-	legendImage = $('<img src="http://services.mapossum.org/legend/'+qid+'?opacity=0&color=white" width="180">')
+	legendImage = $('<img src="http://services.mapossum.org/legend/'+qid+'?opacity=0&color=white" width="' + legendsize + '">')
 	legendImage.appendTo('#maplegend').trigger( "create" )
  
 }
@@ -692,15 +695,51 @@ $(document).bind("orientationchange", function(e){
 
 function checkWidth() {
         var windowsize = $(window).width();
-        if (windowsize > 600) {
+		$("#curQuestion").autoSizr();
+        if (windowsize > 800) {
             // if GT assum legend can be displayed
+			legendsize = 150;
 			$( "#maplegend" ).css( "display", "" );
-        } else {
+			getLegend(mpapp.qid);
+        } else if (windowsize > 500) {
+			$( "#maplegend" ).css( "display", "" );
+			legendsize = windowsize / 8
+			getLegend(mpapp.qid);
+		}else {
 			$( "#maplegend" ).css( "display", "none" );
 		}
     }
 	
 $(window).resize(checkWidth);
+
+$.fn.autoSizr = function () {
+  var el, elements, _i, _len, _results;
+
+  elements = $(this);
+  if (elements.length < 0) {
+    return;
+  }
+  _results = [];
+   el = elements[_i];
+  $(el).css('font-size', '99px');
+  for (_i = 0, _len = elements.length; _i < _len; _i++) {
+    el = elements[_i];
+    _results.push((function(el) {
+      var resizeText, _results1;
+      resizeText = function() {
+        var elNewFontSize;
+        elNewFontSize = (parseInt($(el).css('font-size').slice(0, -2)) - 1) + 'px';
+        return $(el).css('font-size', elNewFontSize);
+      };
+      _results1 = [];
+      while (el.scrollHeight > el.offsetHeight) {
+        _results1.push(resizeText());
+      }
+      return _results1;
+    })(el));
+  }
+  return $(this); 
+};
 
 checkWidth()
 
