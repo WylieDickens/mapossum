@@ -633,7 +633,7 @@ $("#globe").bind('click', function(){
 	getExtent(mpapp.qid)
 })
 
-$( "#add, #login, #createQuestion, #addAnswers, #responses, #searchLocation, #contactInfo, #about, #help, #pnlShare, #pnlIdent  " ).panel({ swipeClose: false });
+$( ".slideout" ).panel({ swipeClose: false });
 
 
 $("#share").bind('click', function(){
@@ -709,6 +709,18 @@ function checkWidth() {
 		}else {
 			$( "#maplegend" ).css( "display", "none" );
 		}
+		
+    //All pages at least 100% of viewport height
+    var viewPortHeight = $(window).height();
+    var headerHeight = $('div[data-role="header"]').height();
+    var footerHeight = $('div[data-role="footer"]').height();
+    var contentHeight = viewPortHeight - headerHeight - footerHeight;
+
+    // Set all pages with class="page-content" to be at least contentHeight
+    $('div[data-role="content"]').css({'height': contentHeight + 'px'});	
+	// $('#map').css({'height': contentHeight + 'px'});	
+	
+		
     }
 	
 $(window).resize(checkWidth);
@@ -741,6 +753,12 @@ $.fn.autoSizr = function () {
 };
 
 checkWidth()
+
+$.mobile.resetActivePageHeight();
+
+$( window ).on( "orientationchange", function( event ) {
+  window.scrollTo(0, 0);
+});
 
 });
 

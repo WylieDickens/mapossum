@@ -39,7 +39,7 @@
 
         </div>
 
-     	<div data-role="footer" style="background-color:#2F4F4F;" data-fullscreen="false" data-position="fixed" >
+     	<div data-role="footer" style="background-color:#2F4F4F;" data-fullscreen="true" >
      		<div data-role="navbar" style="background-color:#2F4F4F;height:62px">
         		<div class="white portrait" id="curQuestion" style="background-color:#2F4F4F;height:55px;font-size:40px;margin:12px">
         		   <center></center></div> <!-- This needs to be here so the panel is drawn the correct size so that the map will also not be underneeth the panel -->      	
@@ -47,14 +47,14 @@
 			
 		    <div data-role="navbar" class="ui-btn-active navcolorfix" data-iconpos="right">
 		        <ul>
-		            <li><a href="#" id="previousQuestion" data-icon="arrow-l" data-rel="dialog" data-transition="pop">Previous</a></li>
+		            <li><a href="#" id="previousQuestion" data-icon="arrow-l">Previous</a></li>
 		            <li><a href="#" id="answerQuestion" data-icon="check">Answer</a></li>
 		            <li><a href="#" id="nextQuestion" data-icon="arrow-r">Next</a></li>
 		        </ul>
 		    </div><!-- /navbar -->		    
 		</div><!-- /footer -->
     
-	<div data-role="panel" data-position="left" data-position-fixed="false" data-display="reveal" id="nav-panel" data-theme="b">
+	<div data-role="panel" class="slideout" data-position="left" data-position-fixed="false" data-display="overlay" id="nav-panel" data-theme="b">
 
 		<ul data-role="listview" data-theme="b" data-divider-theme="a" style="margin-top:-16px;" class="nav-search">
 			<li data-icon="delete" style="background-color:#111;">
@@ -84,7 +84,7 @@
 	</div><!-- /panel -->
 
 
-	<div data-role="panel" data-position="right" data-position-fixed="false" data-display="reveal" id="add" data-theme="b">
+	<div data-role="panel" class="slideout" data-position="right" data-position-fixed="false" data-display="overlay" id="add" data-theme="b">
 
 		<form class="userform">
 			<h2>Create new user</h2>
@@ -113,7 +113,7 @@
 	</div><!-- /panel -->
 
 
-	<div data-role="panel" data-position="right" data-position-fixed="false" data-display="reveal" id="login" data-theme="b">
+	<div data-role="panel" class="slideout" data-position="right" data-position-fixed="false" data-display="overlay" id="login" data-theme="b">
 
 		<form class="userform">
 			<h2>Login</h2>
@@ -136,7 +136,7 @@
 		<!-- panel content goes here -->
 	</div><!-- /panel -->
 
-	<div data-role="panel" data-position="left" data-position-fixed="false" data-display="reveal" id="createQuestion" data-theme="b" data-dismissible="false">
+	<div data-role="panel" class="slideout" data-position="left" data-position-fixed="false" data-display="overlay" id="createQuestion" data-theme="b" data-dismissible="false">
 
 		<form class="userform">
 			<h2>Create a New Question</h2>
@@ -173,7 +173,7 @@
 		<!-- panel content goes here -->
 	</div><!-- /panel -->
 
-	<div data-role="panel" data-position="left" data-position-fixed="false" data-display="reveal" id="addAnswers" data-theme="b" data-dismissible="false">
+	<div data-role="panel" class="slideout" data-position="left" data-position-fixed="false" data-display="overlay" id="addAnswers" data-theme="b" data-dismissible="false">
 
 		<form class="radio">
 			<h3>Enter the answers associated with your question:</h3>
@@ -189,7 +189,7 @@
 		<!-- panel content goes here -->
 	</div><!-- /panel -->
 
-	<div data-role="panel" data-position="left" data-position-fixed="false" data-display="reveal" id="responses" data-theme="b" data-dismissible="false">
+	<div data-role="panel" class="slideout" data-position="left" data-position-fixed="false" data-display="overlay" id="responses" data-theme="b" data-dismissible="false">
 			<div id="question"></div>					
 			<div id="answerList"></div>			 	
 			
@@ -213,7 +213,7 @@
 		<!-- panel content goes here -->
 	</div><!-- /panel -->
 
-	<div data-role="panel" data-position="right" data-position-fixed="false" data-display="reveal" id="searchLocation" data-theme="b">	
+	<div data-role="panel" class="slideout" data-position="right" data-position-fixed="false" data-display="overlay" id="searchLocation" data-theme="b">	
 			<h1>Enter location below</h1>
 			<p>You may search using city, state, country, zip code, or addess. After searching, center the map on the location you want to use.</p>
 			<div data-role="fieldcontain">			        
@@ -226,7 +226,7 @@
 		<!-- panel content goes here -->
 	</div><!-- /panel -->
 
-	<div data-role="panel" data-position="left" data-position-fixed="false" data-display="reveal" id="contactInfo" data-theme="b">
+	<div data-role="panel" class="slideout" data-position="left" data-position-fixed="false" data-display="overlay" id="contactInfo" data-theme="b">
 		<h2>Contact Us</h2>
 		<p><a href="mailto:george.raber@usm.edu">George Raber</a></p>
 		<p>george.raber@usm.edu</p>
@@ -238,14 +238,14 @@
 		</div><!-- /panel -->
 	
 
-	<div data-role="panel" data-position="left" data-position-fixed="false" data-display="reveal" id="about" data-theme="b">
+	<div data-role="panel" class="slideout" data-position="left" data-position-fixed="false" data-display="overlay" id="about" data-theme="b">
 
 		<h2>About Mapossum</h2>
-		<p>This project, originally inspired by the pop vs soda maps (www.popvssoda.com) seeks to create a web application where any question can be asked and answered by anyone with internet access. The Mapossum allows users to visualize spatial patterns in the questions they wish to pose without the need to possess the knowledge necessary to create maps of their own. The application creates a spatial web-survey system that harnesses the visualization power of a web map to explore the spatial components of question. As a tool it has the ability to help users reveal a different dimension of spatial interactions, and provides more insight into cultural and regional interactions. To accomplish this we have created a framework that abstracts the creation of questions and the logging of spatially referenced responses so that the answers can be mapped as points, or aggregated at various levels of administrative or political units (counties, states, countries).</p>
+		<p>This project, originally inspired by the pop vs soda maps (www.popvssoda.com) seeks to create a web application where any question can be asked and answered by anyone with internet access. The Mapossum allows users to visualize spatial patterns in the questions they wish to pose without the need to possess the knowledge necessary to create maps of their own. The application creates a spatial web-survey system that harnesses the visualization power of a web map to explore the spatial components of question. As a tool it has the ability to help users overlay a different dimension of spatial interactions, and provides more insight into cultural and regional interactions. To accomplish this we have created a framework that abstracts the creation of questions and the logging of spatially referenced responses so that the answers can be mapped as points, or aggregated at various levels of administrative or political units (counties, states, countries).</p>
 		<!-- panel content goes here -->
 	</div><!-- /panel -->	
 
-	<div data-role="panel" data-position="left" data-position-fixed="false" data-display="reveal" id="help" data-theme="b">
+	<div data-role="panel" class="slideout" data-position="left" data-position-fixed="false" data-display="overlay" id="help" data-theme="b">
 
 		<h2>Help</h2>
 		<p>To <b>create questions</b> you must <a href="#login">login</a>, however if you only wish to answer questions, you do not have to login.</p><p>After you login, you can view all your questions, view chart graphics, and generate a direct link to your question, through the <a href="#account">account page</a>.</p><p>When answering questions, you can use the location provided through your web browser, or use the map center. To make it easier to navigate to a certain location, you can use the <a href="#searchLocation">search</a> feature.</p>
@@ -254,7 +254,7 @@
 	</div><!-- /panel -->	
 
 
-<div data-role="panel" data-position="right" data-position-fixed="false" data-display="reveal" id="pnlShare" data-theme="b">
+<div data-role="panel" class="slideout" data-position="right" data-position-fixed="false" data-display="overlay" id="pnlShare" data-theme="b">
 
 
 
@@ -295,7 +295,7 @@
 	</div><!-- /panel -->	
 
 
-<div data-role="panel" data-position="left" data-position-fixed="false" data-display="reveal" id="pnlIdent" data-theme="b">
+<div data-role="panel" class="slideout" data-position="left" data-position-fixed="false" data-display="overlay" id="pnlIdent" data-theme="b">
 	
 		<div id ="idText"></div>
        	<div id="cvsDiv"></div>
@@ -332,6 +332,7 @@
 
 </div><!--page -->
 
+
 <div data-role="dialog" id="account">
 	<div>
 		<h1>Account</h1>
@@ -341,6 +342,7 @@
 		</div>  
 	</div>
 </div>
+
 
 </body>
 </html>

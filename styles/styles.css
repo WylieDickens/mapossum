@@ -27,6 +27,16 @@ html, body, #map {
 	margin: 0;
 }
 
+#home {
+	/*	min-height: 100px !important; */
+}
+
+.content {
+
+overflow: none;
+	
+}
+
 
 .ui-header{
 	background-color: gray;
