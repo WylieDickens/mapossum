@@ -31,7 +31,7 @@
         </div>
 
         <div data-role="content">
-        	<div id="map"><div id="maplegend" style="background-color:rgba(0,0,0,0.5);"></div></div>   
+        	<div id="map"><div id="maplegend"></div></div>   
         	<span class="ui-btn-icon-notext ui-icon-action" id="share"></span>
         	<a href="#"><img src="images/layers.png" id="boundaryChange"></a>
         	<a href="#"><img src="images/info.png" id="legend"></a>
@@ -191,7 +191,22 @@
 
 	<div data-role="panel" class="slideout" data-position="left" data-position-fixed="false" data-display="overlay" id="responses" data-theme="b" data-dismissible="false">
 			<div id="question"></div>					
-			<div id="answerList"></div>			 	
+			<div id="answerList"></div>	
+
+			<div class="loadingani" id="answerLoading">
+			<div class="lpbar">
+			<div id="block_1" class="barlittle"></div>
+			<div id="block_2" class="barlittle"></div>
+			<div id="block_3" class="barlittle"></div>
+			<div id="block_4" class="barlittle"></div>
+			<div id="block_5" class="barlittle"></div>
+			</div>
+			<br>
+			<small>Please Wait</small>	
+			</div>
+			 		
+			
+		
 			
 			<div class="ui-grid-a">
 			    <div class="ui-block-a" id="subResponse"><a href="#" data-rel="close" data-role="button" data-theme="b" data-mini="true">Submit</a></div>
@@ -200,10 +215,25 @@
 			
 			
 			<hr>
+			
+			<h4>Current Response Position: <h4>
+			<div class="loadingani" id="locationLoading">
+			<div class="lpbar">
+			<div id="block_1" class="barlittle"></div>
+			<div id="block_2" class="barlittle"></div>
+			<div id="block_3" class="barlittle"></div>
+			<div id="block_4" class="barlittle"></div>
+			<div id="block_5" class="barlittle"></div>
+			</div>
+			<br>
+			<small>Please Wait</small>	
+			</div>
+			
 			<div id="curLocationText">Your position is not defined.  You will not be able to answer questions until you set your position below.</div>
 			
 			<div id="setLocation"></div>
-			<h4>Change Response Position:</h4>
+
+					
 			<a href="#" data-role="button" data-inline="true" data-mini="true" data-transition="pop" id="isp">Set location to device location</a>
 			<a href="#" data-role="button" data-inline="true" data-mini="true" data-transition="pop"id="mapcenter">Set location to current map center</a>
 			<hr>

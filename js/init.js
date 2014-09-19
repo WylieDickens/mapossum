@@ -275,6 +275,8 @@ function buildReponses(qid){
 	$("#answerList").empty();
 	$("#setLocation").empty();
 	$("#descriptionTxt").empty()
+	
+	$( "#answerLoading" ).css( "display", "" );
 
 	$.getJSON( "http://services.mapossum.org/getanswers?qid=" + qid + "&callback=?", function( data ) {
 	  		
@@ -302,7 +304,8 @@ function buildReponses(qid){
 	      			answerBtn.appendTo('#answerList').trigger( "create" );
 	      		}
       		}
-      	}      	    
+      	}
+		$( "#answerLoading" ).css( "display", "none" );
     });
 	$( "#responses" ).panel( "open");  
 }
@@ -313,7 +316,7 @@ function addResponse(qid, answerid, loc){
 	  d = new Date();
 	  v = d.getTime();    	
       mapossumLayer.options.v = v;
-	  mapossumLayer.redraw()	
+	  mapossumLayer.redraw();
     });
 }
 
@@ -423,9 +426,13 @@ function formatLoc(position) {
 }
 
 function setcurlatlon(xlng,ylat) {
+
+	$( "#locationLoading" ).css( "display", "" );
+	$("#curLocationText").html( "");
 	 curlatlon = "Point("+ xlng + " " + ylat +")";	 
 	 $.getJSON( "http://nominatim.openstreetmap.org/reverse?format=json&lat=" + ylat + "&lon=" + xlng + "&zoom=18&addressdetails=1", function( data ) { 	 	    
-	 		$("#curLocationText").html( "<h4>Current Response Position: <h4><small>Lat: " + ylat.toFixed(3) + " " + "Lon: " + xlng.toFixed(3) + "<br>" + "<br>Which is near:<br>" + data.display_name  + "</small>");
+	 		$("#curLocationText").html( "<small>Lat: " + ylat.toFixed(3) + " " + "Lon: " + xlng.toFixed(3) + "<br>" + "<br>Which is near:<br>" + data.display_name  + "</small>");
+			$( "#locationLoading" ).css( "display", "none" );
 	 })
 }
 
@@ -543,7 +550,7 @@ $("#subQues").bind('click', function(e) {
 });
 
 $("#subAnswer").bind('click', function(e) {	
-	addAnswer(mpapp.qid)
+	addAnswer(mpapp.qid);
 });
 
 $("#answerQuestion").bind('click', function(e) {	 
