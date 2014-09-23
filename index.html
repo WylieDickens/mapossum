@@ -24,7 +24,7 @@
 	<div data-role="page" class="ui-responsive-panel" id="home" data-theme="b" >
     	<div data-role="header" style="background-color:#2F4F4F;">
         	<h1 class="white">Mapossum</h1>
-        	<a href="#nav-panel" data-icon="bars" data-iconpos="notext">Menu</a>
+        	<a href="#nav-panel" id="menu" data-icon="bars" data-iconpos="notext">Menu</a>
 			<a href="#login" id ="loginIcon"data-icon="user" data-iconpos="notext">Add</a>			
         </div>
 
@@ -43,7 +43,7 @@
         		   <center></center></div> <!-- This needs to be here so the panel is drawn the correct size so that the map will also not be underneeth the panel -->      	
         	</div>
 			
-		    <div data-role="navbar" class="ui-btn-active navcolorfix ui-state-persist" data-iconpos="right">
+		    <div data-role="navbar" id="answerBar" class="ui-btn-active navcolorfix ui-state-persist" data-iconpos="right">
 		        <ul>
 		            <li><a href="#" id="previousQuestion" data-icon="arrow-l">Previous</a></li>
 		            <li><a href="#" id="answerQuestion" data-icon="check">Answer</a></li>
@@ -392,23 +392,23 @@
 		<div class="ui-block-b">
 		    <h5>Share Capabilities</h5><p>The application allows you to share direct links to numerous social media sites that includes any question with a specified zoom level and map extent.</p>
 		</div>
-		<!-- <div class="ui-block-a">
+		<div class="ui-block-a">
 		     <h5>Embed Maps</h5><p>You can also embed maps into your own website (ie. blogs, news articles, etc) by simplying copying the iframe html from our 'share' page.</p>
 		</div>
 		<div class="ui-block-b">
-			<iframe src="embed/index.html" style="width:100%;height:100%" frameborder="none">
-  			<p>Your browser does not support iframes.</p>
+			<iframe src='index.html' style='width:300px;height:460px' frameborder='none'></iframe>
 		</iframe>
-		</div> -->
+		</div>
 	</div>
-	<div><a href="#home" class="ui-btn ui-btn-b ui-shadow ui-corner-all" id="closeWelcome">Get Started</a></div>
-
-	     <!-- <h5>An example embeded map:</h5>
-	    <iframe src="embed/index.html" style="width:100%;height:100%" frameborder="none">
-  			<p>Your browser does not support iframes.</p>
-		</iframe>
-		 <a href="#home" class="ui-btn ui-btn-b ui-shadow ui-corner-all" id="closeWelcome">Get Started</a>
-	 /grid-a -->   
+	<hr>
+	<center><p>Show this welcome window the next time you visit the mapossum:</p>
+	<select name="slider" id="showWelcome" data-role="slider">
+		<option value="yes">Yes</option>
+		<option value="no">No</option>					
+	</select>
+	</center>
+	<div><a href="#home" class="ui-btn ui-btn-b ui-shadow ui-corner-all" id="closeWelcome">Get Started</a></div>	
+	  
 </div>
 
 </body>

@@ -7,6 +7,14 @@ var legendsize = 150;
 
 $( window ).load(function() {
 
+if(self !== window){
+	console.log('iframe')
+	$("#menu").hide();
+	$("#answerBar").hide();
+	$("#loginIcon").hide();
+	$("#welcome").hide();
+	$("#globe").hide();
+}
 
 $( "#boundaryMenu" ).popup({ overlayTheme: "b" });
 $( "#legendPopup" ).popup({ overlayTheme: "b" });
@@ -14,6 +22,7 @@ $( "#descriptionPopup" ).popup({ overlayTheme: "b"});
 $( "#welcome" ).popup({ overlayTheme: "a" });
 $( "#welcome" ).popup({ theme: "b" });
 $( "#welcome" ).popup( "option", "history", false );
+$('#showWelcome').slider()
 $("#pnlIdent").panel({});
 $("#pnlShare").panel({});
 
@@ -256,7 +265,9 @@ function getQuestions(){
 				mapossumLayer = L.tileLayer('http://maps.mapossum.org/{qid}/{maptype}/{z}/{x}/{y}.png?v={v}', {maptype: maptype, qid:nowqid, v: iv, opacity: 0.7})
 	    		mapossumLayer.addTo(map);
 	    		moveQuestion(count, moveit)
-	    		$( "#welcome" ).popup( "open" );	    				    		
+	    		if(localStorage.welDiv != "no"){
+	    			$( "#welcome" ).popup( "open" );
+	    		}	    				    		
 	});		
 }
 
@@ -656,17 +667,17 @@ $("#legend").bind('click', function(){
 	showChart(curdata)
 })
 
-	// $("#closeWelcome").bind('click', function(){
-	// 	alert('here')
-	// 	window.location.hash = 'home';
-	// 	$.mobile.initializePage();
-	// })
+$("#closeWelcome").bind('click', function(){
+	welVal = $("#showWelcome").val()
+	console.log(welVal)
+	
 
-
-
-// $("#welcome").bind('click', function(){
-// 	alert('here')
-// })
+if (welVal == "no") {
+	localStorage.setItem("welDiv", welVal)
+	console.log(localStorage.welDiv)
+		
+}
+})
 
 $("#globe").bind('click', function(){
 	getExtent(mpapp.qid)
