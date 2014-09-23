@@ -17,8 +17,6 @@
 	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>	
 	<script src="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.js"></script>	
 	<script src="js/jquery.share.js"></script>
-	
-	<!--<script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.3.0"></script>-->
 </head>
 
 <body>
@@ -45,7 +43,7 @@
         		   <center></center></div> <!-- This needs to be here so the panel is drawn the correct size so that the map will also not be underneeth the panel -->      	
         	</div>
 			
-		    <div data-role="navbar" class="ui-btn-active navcolorfix" data-iconpos="right">
+		    <div data-role="navbar" class="ui-btn-active navcolorfix ui-state-persist" data-iconpos="right">
 		        <ul>
 		            <li><a href="#" id="previousQuestion" data-icon="arrow-l">Previous</a></li>
 		            <li><a href="#" id="answerQuestion" data-icon="check">Answer</a></li>
@@ -77,7 +75,7 @@
 			</li>
 			<li data-filtertext="accordions collapsible set collapsible-set collapsed">
 				<a href="#searchLocation">Search</a>
-			</li>
+			</li>			
 		</ul>
 
 		<!-- panel content goes here -->
@@ -191,8 +189,7 @@
 
 	<div data-role="panel" class="slideout" data-position="left" data-position-fixed="false" data-display="overlay" id="responses" data-theme="b" data-dismissible="false">
 			<div id="question"></div>					
-			<div id="answerList"></div>	
-
+			<div id="answerList"></div>				
 			<div class="loadingani" id="answerLoading">
 			<div class="lpbar">
 			<div id="block_1" class="barlittle"></div>
@@ -214,8 +211,7 @@
 			</div>
 			
 			
-			<hr>
-			
+			<hr>			
 			<h4>Current Response Position: <h4>
 			<div class="loadingani" id="locationLoading">
 			<div class="lpbar">
@@ -229,29 +225,40 @@
 			<small>Please Wait</small>	
 			</div>
 			
-			<div id="curLocationText">Your position is not defined.  You will not be able to answer questions until you set your position below.</div>
-			
-			<div id="setLocation"></div>
-
-					
-			<a href="#" data-role="button" data-inline="true" data-mini="true" data-transition="pop" id="isp">Set location to device location</a>
-			<a href="#" data-role="button" data-inline="true" data-mini="true" data-transition="pop"id="mapcenter">Set location to current map center</a>
-			<hr>
-			<div><small>You can use the search button below to make it easier to navigate to your desired position and then set your position using the button above.</small></div>
-			<a href="#searchLocation" data-role="button" data-inline="true" data-mini="true" data-icon="location" data-transition="pop">Search (Change map center)</a>
-
+			<div id="curLocationText"><p class="med">Your position is not defined.  You will not be able to answer questions until you set your position below.</p></div>
+			<div><a href="#searchLocation" data-role="button" data-inline="true" data-mini="false" data-transition="pop"id="setPos">Update Map Position</a></div>
+<!-- 			<div id="setLocation"></div>
+ -->
 		<!-- panel content goes here -->
 	</div><!-- /panel -->
 
 	<div data-role="panel" class="slideout" data-position="right" data-position-fixed="false" data-display="overlay" id="searchLocation" data-theme="b">	
-			<h1>Enter location below</h1>
+			<h3>Update position below:</h3>
+			<a href="#" data-role="button" data-inline="true" data-mini="false" data-transition="pop" id="isp">Device location</a>
+			<a href="#" data-role="button" data-inline="true" data-mini="false" data-transition="pop"id="mapcenter">Current map center</a>
+			<hr>
+			<div class="loadingani" id="locationLoading2">
+			<div class="lpbar">
+			<div id="block_1" class="barlittle"></div>
+			<div id="block_2" class="barlittle"></div>
+			<div id="block_3" class="barlittle"></div>
+			<div id="block_4" class="barlittle"></div>
+			<div id="block_5" class="barlittle"></div>
+			</div>
+			<br>
+			<small>Please Wait</small>	
+			</div>
+			<h3>Current Response Position: </h3>
+			<div id="curLocationText2">
+			<p class="med">Your position is not defined.  You will not be able to answer questions until you set your position.</p></div>
+			<hr>
+			<h3>Search for location:</h3>
 			<p>You may search using city, state, country, zip code, or addess. After searching, center the map on the location you want to use.</p>
 			<div data-role="fieldcontain">			        
 		        <input type="text" name="searchText" id="searchText" value=""  />
 			</div>       
 			<div class="ui-grid-a">
 				    <div class="ui-block-a" id="subLocation"><a href="#" data-rel="close" data-role="button" data-theme="b" data-mini="true">Search</a></div>
-				    <div class="ui-block-b"><a href="#" data-rel="close" data-role="button" data-theme="b" data-mini="true">Cancel</a></div>
 			</div> 
 		<!-- panel content goes here -->
 	</div><!-- /panel -->
@@ -315,12 +322,6 @@
 		</div>
 		
 
-		<!-- <div id="tweety"></div> -->
-		
-		<!-- <h4>Social Media:</h4>
-		<div class="fb-share-button" id="fb-root" data-href=""+document.url+""></div>
-		<div class="fb-share-button" data-href="htpp://mapossum.org"></div> -->
-
 		<!-- panel content goes here -->
 	</div><!-- /panel -->	
 
@@ -332,7 +333,7 @@
        	<div id="legendPic" style="padding:5px" align="center"></div>
 
 		<!-- panel content goes here -->
-	</div><!-- /panel -->	
+</div><!-- /panel -->	
 
 
 
@@ -360,22 +361,57 @@
   <div id="descriptionTxt"></div>
 </div>
 
-</div><!--page -->
-
-
-<div data-role="dialog" id="account">
+<div data-role="panel" class="slideout" data-position="left" data-position-fixed="false" data-display="overlay" id="account" data-theme="b">
 	<div>
 		<h1>Account</h1>
-		<div id="accountDiv"></div>		
-		<div class="ui-grid-a">			    
-			    <div class="ui-block-b"><a href="#" data-rel="back" data-role="button" data-theme="a" data-mini="true">Close</a></div>
-		</div>  
+		<div id="accountDiv"></div>
 	</div>
+
+		<!-- panel content goes here -->
+</div><!-- /panel -->	
+</div><!--page -->
+
+<div data-role="popup" id="welcome" data-transition="slidedown"> 
+    <center><h1>Welcome to the Mapossum</h1></center>
+    <div class="ui-grid-a">
+	    <div class="ui-block-a">
+		   <h5>What is the Mapossum?</h5><p>The Mapossum is a map-centric web-survey application that aggregates to numerous scales. This allows for users to explore cultural and regional differences at different spatial scales.</p>
+		</div>
+		<div class="ui-block-b">
+		    <h5>How to use the Mapossum?</h5><p>The Mapossum has two basic user experiences. You can forgo creating an account to just answer questions, or create an account to create your own questions.</p>
+		</div>
+		<div class="ui-block-a">
+		    <h5>How do I answer Questions?</h5><p>To answer a question simply navagate to the question you want to answer by using the 'next' or 'previous' question buttons at the bottom of the page, and then click the 'answer' question button.</p>
+		</div>
+		<div class="ui-block-b">
+		    <h5>How do I create a Question?</h5><p>To create a question, you must first create an account and login. After creating an account, you will be given access to create questions and view charts based on user responses to your question via your 'account' page.</p>
+		</div>
+		<div class="ui-block-a">	
+		    <h5>How do I set my location?</h5><p>If you have location services enabled on your device, we will use that location to answer your question. However, if you have this disabled or choose to use another location, you can use the 'use map center' button under the answer questions page.</p>
+		</div>
+		<div class="ui-block-b">
+		    <h5>Share Capabilities</h5><p>The application allows you to share direct links to numerous social media sites that includes any question with a specified zoom level and map extent.</p>
+		</div>
+		<!-- <div class="ui-block-a">
+		     <h5>Embed Maps</h5><p>You can also embed maps into your own website (ie. blogs, news articles, etc) by simplying copying the iframe html from our 'share' page.</p>
+		</div>
+		<div class="ui-block-b">
+			<iframe src="embed/index.html" style="width:100%;height:100%" frameborder="none">
+  			<p>Your browser does not support iframes.</p>
+		</iframe>
+		</div> -->
+	</div>
+	<div><a href="#home" class="ui-btn ui-btn-b ui-shadow ui-corner-all" id="closeWelcome">Get Started</a></div>
+
+	     <!-- <h5>An example embeded map:</h5>
+	    <iframe src="embed/index.html" style="width:100%;height:100%" frameborder="none">
+  			<p>Your browser does not support iframes.</p>
+		</iframe>
+		 <a href="#home" class="ui-btn ui-btn-b ui-shadow ui-corner-all" id="closeWelcome">Get Started</a>
+	 /grid-a -->   
 </div>
 
-
 </body>
-</html>
 
 <script src="js/Chart.js"></script>
 <script src="js/init.js"></script>

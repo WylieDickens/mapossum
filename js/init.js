@@ -1,5 +1,5 @@
 var mpapp={userid:"", loggedUid:"",first:"", last:"", answerNum:"", qid:"", answer:"", curQuestion:"", curAnswers:"", picture:"", explain:""};
-var questions={},count = 0, curlatlon, picture, answerCount, loc, curExtent, logged = 0, useCenter = 1, maptype, popup, crtData=[], curdata;
+var questions={},count = 0, curlatlon, picture, answerCount, loc, curExtent, logged = 0, useCenter = 1, resLocation = 0,maptype, popup, crtData=[], curdata;
 var userAcc=[];
 var mapossumLayer;
 var testingChart;
@@ -7,9 +7,13 @@ var legendsize = 150;
 
 $( window ).load(function() {
 
+
 $( "#boundaryMenu" ).popup({ overlayTheme: "b" });
 $( "#legendPopup" ).popup({ overlayTheme: "b" });
 $( "#descriptionPopup" ).popup({ overlayTheme: "b"});
+$( "#welcome" ).popup({ overlayTheme: "a" });
+$( "#welcome" ).popup({ theme: "b" });
+$( "#welcome" ).popup( "option", "history", false );
 $("#pnlIdent").panel({});
 $("#pnlShare").panel({});
 
@@ -251,8 +255,9 @@ function getQuestions(){
 				iv = d.getTime(); 
 				mapossumLayer = L.tileLayer('http://maps.mapossum.org/{qid}/{maptype}/{z}/{x}/{y}.png?v={v}', {maptype: maptype, qid:nowqid, v: iv, opacity: 0.7})
 	    		mapossumLayer.addTo(map);
-	    		moveQuestion(count, moveit)		    		
-		});		
+	    		moveQuestion(count, moveit)
+	    		$( "#welcome" ).popup( "open" );	    				    		
+	});		
 }
 
 /* update quesiton title information in the footer */
@@ -402,6 +407,7 @@ function getLocation() {
     } else {
         alert("Geolocation is not supported by this browser.");
     }
+    resLocation++
 }
 
 /* gets the geographic extent of a questions answers */
@@ -423,16 +429,23 @@ function fitBounds(bounds){
 function formatLoc(position) {
     setcurlatlon(position.coords.longitude,position.coords.latitude);
     loc = 1;
+    if (resLocation > 1){
+    	$("#responses").panel("open");
+	}
 }
 
 function setcurlatlon(xlng,ylat) {
 
 	$( "#locationLoading" ).css( "display", "" );
+	$( "#locationLoading2" ).css( "display", "" );
 	$("#curLocationText").html( "");
+	$("#curLocationText2").html( "");
 	 curlatlon = "Point("+ xlng + " " + ylat +")";	 
 	 $.getJSON( "http://nominatim.openstreetmap.org/reverse?format=json&lat=" + ylat + "&lon=" + xlng + "&zoom=18&addressdetails=1", function( data ) { 	 	    
 	 		$("#curLocationText").html( "<small>Lat: " + ylat.toFixed(3) + " " + "Lon: " + xlng.toFixed(3) + "<br>" + "<br>Which is near:<br>" + data.display_name  + "</small>");
+	 		$("#curLocationText2").html( "<small>Lat: " + ylat.toFixed(3) + " " + "Lon: " + xlng.toFixed(3) + "<br>" + "<br>Which is near:<br>" + data.display_name  + "</small>");
 			$( "#locationLoading" ).css( "display", "none" );
+			$( "#locationLoading2" ).css( "display", "none" );
 	 })
 }
 
@@ -441,19 +454,27 @@ function showError(error) {
     switch(error.code) {
         case error.PERMISSION_DENIED:
         	loc = 0
-            alert("User denied the request for Geolocation. Please note that you will be required to enter a map location from the map center as your location for all answers.")
+        	if(resLocation > 1){
+            alert("You must enable your location settings to use your current location.")
+        	}
             break;
         case error.POSITION_UNAVAILABLE:
         	loc = 0
-           	alert("Location information is unavailable.  Please note that you will be required to enter a map location from the map center as your location for all answers.")
+        	if(resLocation > 1){
+            alert("Location information is unavailable.")
+        	}           	
             break;
         case error.TIMEOUT:
             loc = 0
-            alert("The request to get user location timed out.  Please note that you will be required to enter a map location from the map center as your location for all answers.")
+            if(resLocation > 1){
+            alert("The request to get user location timed out.")
+        	}
             break;
         case error.UNKNOWN_ERROR:
             loc = 0
-            alert("An unknown error occurred.  Please note that you will be required to enter a map location from the map center as your location for all answers.")
+            if(resLocation > 1){
+            alert("An unknown error occurred.")
+        	}
             break;
     }
 }
@@ -565,6 +586,7 @@ $("#mapcenter").bind('click', function(){
 	console.log('center')
 	center = map.getCenter(); 
 	setcurlatlon(center.lng, center.lat);
+	$("#responses").panel("open");
 });
 
 $("#subResponse").bind('click', function() {	
@@ -582,8 +604,6 @@ $("#subResponse").bind('click', function() {
 $("#subLocation").click(function(){	
 	locText = $("#searchText").val()	
 	searchLocation(locText)	
-	$( "#responses" ).panel( "open"); 
-
 })
 
 $("#nextQuestion").bind('click', function(){
@@ -636,6 +656,18 @@ $("#legend").bind('click', function(){
 	showChart(curdata)
 })
 
+	// $("#closeWelcome").bind('click', function(){
+	// 	alert('here')
+	// 	window.location.hash = 'home';
+	// 	$.mobile.initializePage();
+	// })
+
+
+
+// $("#welcome").bind('click', function(){
+// 	alert('here')
+// })
+
 $("#globe").bind('click', function(){
 	getExtent(mpapp.qid)
 })
@@ -645,12 +677,13 @@ $( ".slideout" ).panel({ swipeClose: false });
 
 $("#share").bind('click', function(){
 	$( "#pnlShare" ).panel( "open");
+	//$("#maplegend").hide();
 	urlout = document.URL //.replace("#","%23")
 	$('#dLink').html(urlout);
 	$("#facbookshare").empty();
 	
 	$('#facbookshare').share({
-        networks: ['email','pinterest','tumblr','googleplus','digg','in1','facebook','twitter','linkedin','stumbleupon'],
+        networks: ['facebook','twitter','stumbleupon','googleplus','tumblr','digg'],
         theme: 'square',
 		urlToShare: urlout
     });
@@ -658,6 +691,12 @@ $("#share").bind('click', function(){
 	updateUrl()
 
 })
+
+/*$( "#share" ).on( "panelclose", function( event, ui ) {
+	$("#maplegend").show();
+	} 
+);*/
+
 
 $( "#sldHeight, #sldWidth" ).bind( "change", function(event, ui) {
 	updateUrl()
