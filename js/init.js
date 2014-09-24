@@ -496,11 +496,11 @@ function getLegend(qid){
 	$("#legendPic").empty();
 	d = new Date();
 	iv = d.getTime(); 	    	
-	legendImage = $('<img src="http://services.mapossum.org/legend/'+qid+'?v="+ iv + "opacity=0&color=white" width="230">')
+	legendImage = $('<img src="http://services.mapossum.org/legend/'+qid+'?v='+ iv + '&opacity=0&color=white" width="230">')
 	legendImage.appendTo('#legendPic').trigger( "create" )
 	
 	$("#maplegend").empty();	    	
-	legendImage = $('<img src="http://services.mapossum.org/legend/'+qid+'?v="+ iv + "opacity=0&color=white" width="' + legendsize + '">')
+	legendImage = $('<img src="http://services.mapossum.org/legend/' +qid+'?v='+ iv + '&opacity=0&color=white" width="' + legendsize + '">')
 	legendImage.appendTo('#maplegend').trigger( "create" )
  
 }
