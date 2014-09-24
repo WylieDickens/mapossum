@@ -546,7 +546,7 @@ function showChart(data) {
 }
 
 function updateUrl(){
-	$('#eLink').html("<iframe src='index.html?qid="+mpapp.qid+"' style='width:"+$('#sldWidth').val()+"px;height:"+$('#sldHeight').val()+"px' frameborder='none'></iframe>")
+	$('#eLink').html("<iframe src='" + window.location + "' style='width:"+$('#sldWidth').val()+"px;height:"+$('#sldHeight').val()+"px' frameborder='none'></iframe>")
 }
 
 /* click events */
