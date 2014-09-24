@@ -154,7 +154,8 @@ function addAnswer(qid){
 		for(var i = 1; i <= mpapp.answerNum; i++){	   		
 	   		ansDiv = '#Answer-'+i;
 	   		answerDiv = String(ansDiv)
-	   		mpapp.answer = $(answerDiv).val()
+	   		ans = $(answerDiv).val()
+	   		mpapp.answer = String(ans)
 	   		picDiv = '#Picture-'+i;
 	   		pictureDiv = String(picDiv)
 	   		mpapp.picture = $(pictureDiv).val()
@@ -170,7 +171,9 @@ function addAnswer(qid){
 		for(var i = 1; i <= mpapp.answerNum; i++){	   		
 	   		ansDiv = '#Answer-'+i;
 	   		answerDiv = String(ansDiv)
-	   		mpapp.answer = $(answerDiv).val()	
+	   		ans = $(answerDiv).val()
+	   		mpapp.answer = String(ans)
+
 	   		$.getJSON( "http://services.mapossum.org/addanswer?qid=" + mpapp.qid + "&answer=" + mpapp.answer +"&callback=?", function( data ) {
 	   			if(answerCount == mpapp.answerNum){								
 					setUpMap(mpapp.qid);				
