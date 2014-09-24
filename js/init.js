@@ -282,7 +282,7 @@ function updateTitle(layoutQuestion){
 /* get possible answers for a question*/
 function getAnswers(id){
 	$.getJSON( "http://services.mapossum.org/getanswers?qid=" + id + "&callback=?", function( data ) {      	
-      	mpapp.curAnswers = data.data;      
+      	mpapp.curAnswers = data.data;
     });
 }
 
