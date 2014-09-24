@@ -71,7 +71,7 @@
 				<a href="#createQuestion">Create Question</a>
 			</li>
 			<li data-filtertext="accordions collapsible set collapsible-set collapsed">
-				<a href="#help">Help</a>
+				<a href="#welcome">Help</a>
 			</li>
 			<li data-filtertext="accordions collapsible set collapsible-set collapsed">
 				<a href="#searchLocation">Search</a>
@@ -333,7 +333,42 @@
        	<div id="legendPic" style="padding:5px" align="center"></div>
 
 		<!-- panel content goes here -->
-</div><!-- /panel -->	
+</div><!-- /panel -->
+
+<div data-role="panel" id="hlpCreate" data-transition="slideout"> 
+	<h5>How do I create a Question?</h5><p>To create a question, you must first create an <a href="#add">account</a> and <a href="#login">login</a>. After creating an account, you will be given access to <a href="createQuestion">create questions</a> and view charts based on user responses to your question via your <a href="account">'account'</a> page.</p>
+</div>
+
+<div data-role="panel" id="hlpAnswer" data-transition="slideout"> 
+	<h5>How do I answer Questions?</h5><p>To answer a question simply navagate to the question you want to answer by using the 'next' or 'previous' question buttons at the bottom of the page, and then click the 'answer' question button.</p>
+</div>
+
+<div data-role="panel" id="hlpLocation" data-transition="slideout"> 
+	<h5>How do I set my location?</h5><p>If you have location services enabled on your device, we will use that location to answer your question. However, if you have this disabled or choose to use another location, you can use the 'use map center' button under the answer questions page.</p>
+</div>
+
+<div data-role="panel" id="hlpShare" data-transition="slideout"> 
+	 <h5>Share Capabilities</h5><p>The application allows you to <a href="#share">share</a> direct links to numerous social media sites that includes any question with a specified zoom level and map extent.</p>
+</div>
+
+<div data-role="panel" id="welcome" data-transition="slideout"> 
+    <h2>How to use the Mapossum</h2>
+   	   	
+	   <h4>What is the Mapossum?</h4><p>The Mapossum is a map-centric web-survey application that aggregates to numerous scales. This allows for users to explore cultural and regional differences at different spatial scales. The Mapossum has two basic user experiences. You can forgo creating an account to just answer questions, or create an account to create your own questions.</p>	    	
+		<a href="#hlpCreate" data-rel="close" data-role="button" data-theme="b" data-mini="true">How do I create a question?</a>
+		<a href="#hlpAnswer" data-rel="close" data-role="button" data-theme="b" data-mini="true">How do I answer a questions?</a>			    
+		<a href="#hlpLocation" data-rel="close" data-role="button" data-theme="b" data-mini="true">How do I change my location?</a>
+	    <a href="#hlpShare" data-rel="close" data-role="button" data-theme="b" data-mini="true">How do I share maps?</a>
+	    
+	<hr>
+	<p>Show this welcome window the next time you visit the mapossum:</p>
+	<select name="slider" id="showWelcome" data-role="slider">
+		<option value="yes">Yes</option>
+		<option value="no">No</option>					
+	</select>
+	<div><a href="#home" class="ui-btn ui-btn-b ui-shadow ui-corner-all" id="closeWelcome">Get Started</a></div>	
+	  
+</div>	
 
 
 
@@ -370,45 +405,6 @@
 		<!-- panel content goes here -->
 </div><!-- /panel -->	
 </div><!--page -->
-
-<div data-role="popup" id="welcome" data-transition="slidedown"> 
-    <center><h1>Welcome to the Mapossum</h1></center>
-    <div class="ui-grid-a">
-	    <div class="ui-block-a">
-		   <h5>What is the Mapossum?</h5><p>The Mapossum is a map-centric web-survey application that aggregates to numerous scales. This allows for users to explore cultural and regional differences at different spatial scales.</p>
-		</div>
-		<div class="ui-block-b">
-		    <h5>How to use the Mapossum?</h5><p>The Mapossum has two basic user experiences. You can forgo creating an account to just answer questions, or create an account to create your own questions.</p>
-		</div>
-		<div class="ui-block-a">
-		    <h5>How do I answer Questions?</h5><p>To answer a question simply navagate to the question you want to answer by using the 'next' or 'previous' question buttons at the bottom of the page, and then click the 'answer' question button.</p>
-		</div>
-		<div class="ui-block-b">
-		    <h5>How do I create a Question?</h5><p>To create a question, you must first create an account and login. After creating an account, you will be given access to create questions and view charts based on user responses to your question via your 'account' page.</p>
-		</div>
-		<div class="ui-block-a">	
-		    <h5>How do I set my location?</h5><p>If you have location services enabled on your device, we will use that location to answer your question. However, if you have this disabled or choose to use another location, you can use the 'use map center' button under the answer questions page.</p>
-		</div>
-		<div class="ui-block-b">
-		    <h5>Share Capabilities</h5><p>The application allows you to share direct links to numerous social media sites that includes any question with a specified zoom level and map extent.</p>
-		</div>		
-	</div>
-	<div>
-		<h5>Embed Maps</h5><p>You can also embed maps into your own website (ie. blogs, news articles, etc) by simplying copying the iframe html from our 'share' page.</p>
-	</div>
-	<div>
-		<center><iframe src='index.html?qid=119' style='width:70%;height:400px' frameborder='none'></iframe>
-	</div>
-	<hr>
-	<center><p>Show this welcome window the next time you visit the mapossum:</p>
-	<select name="slider" id="showWelcome" data-role="slider">
-		<option value="yes">Yes</option>
-		<option value="no">No</option>					
-	</select>
-	</center>
-	<div><a href="#home" class="ui-btn ui-btn-b ui-shadow ui-corner-all" id="closeWelcome">Get Started</a></div>	
-	  
-</div>
 
 </body>
 

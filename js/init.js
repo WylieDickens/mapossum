@@ -18,9 +18,9 @@ $( window ).load(function() {
 $( "#boundaryMenu" ).popup({ overlayTheme: "b" });
 $( "#legendPopup" ).popup({ overlayTheme: "b" });
 $( "#descriptionPopup" ).popup({ overlayTheme: "b"});
-$( "#welcome" ).popup({ overlayTheme: "a" });
-$( "#welcome" ).popup({ theme: "b" });
-$( "#welcome" ).popup( "option", "history", false );
+// $( "#welcome" ).panel({ overlayTheme: "a" });
+// $( "#welcome" ).panel({ theme: "b" });
+// $( "#welcome" ).panel( "option", "history", false );
 $('#showWelcome').slider()
 $("#pnlIdent").panel({});
 $("#pnlShare").panel({});
@@ -266,7 +266,7 @@ function getQuestions(){
 	    		mapossumLayer.addTo(map);
 	    		moveQuestion(count, moveit)
 	    		if(localStorage.welDiv != "no" && window.top==window.self){					
-	    			$( "#welcome" ).popup( "open" );
+	    			$( "#welcome" ).panel( "open" );
 	    		}	    			    				    		
 	});		
 		
