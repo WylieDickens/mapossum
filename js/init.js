@@ -5,16 +5,15 @@ var mapossumLayer;
 var testingChart;
 var legendsize = 150;
 
-$( window ).load(function() {
 
-if(self !== window){
-	console.log('iframe')
-	$("#menu").hide();
-	$("#answerBar").hide();
-	$("#loginIcon").hide();
-	$("#welcome").hide();
-	$("#globe").hide();
-}
+$( window ).load(function() {
+	if (window.top!=window.self) {
+		$("#menu").hide();
+		$("#answerBar").hide();
+		$("#loginIcon").hide();
+		$("#welcome").hide();
+		$("#globe").hide();
+	}
 
 $( "#boundaryMenu" ).popup({ overlayTheme: "b" });
 $( "#legendPopup" ).popup({ overlayTheme: "b" });
@@ -25,7 +24,6 @@ $( "#welcome" ).popup( "option", "history", false );
 $('#showWelcome').slider()
 $("#pnlIdent").panel({});
 $("#pnlShare").panel({});
-
 	
 var map = L.map('map', {trackResize:true, maxZoom:16});
 
@@ -37,6 +35,11 @@ var bwlayer = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 });
 
 map.addLayer(bwlayer);
+
+getLocation();
+getQuestions();
+
+
 
 //this code is a hack to distiguish single clicks from double clicks
 var clickCount = 0;
@@ -56,9 +59,6 @@ map.on('click', function(e) {
 	
   }
 });
-
-getLocation();
-getQuestions();
 
 map.on('move', function(e) {
     updateHash();
@@ -265,10 +265,11 @@ function getQuestions(){
 				mapossumLayer = L.tileLayer('http://maps.mapossum.org/{qid}/{maptype}/{z}/{x}/{y}.png?v={v}', {maptype: maptype, qid:nowqid, v: iv, opacity: 0.7})
 	    		mapossumLayer.addTo(map);
 	    		moveQuestion(count, moveit)
-	    		if(localStorage.welDiv != "no"){
+	    		if(localStorage.welDiv != "no" && window.top==window.self){					
 	    			$( "#welcome" ).popup( "open" );
-	    		}	    				    		
+	    		}	    			    				    		
 	});		
+		
 }
 
 /* update quesiton title information in the footer */
@@ -492,12 +493,14 @@ function showError(error) {
 
 /* gets legend information for a questions */
 function getLegend(qid){
-	$("#legendPic").empty();	    	
-	legendImage = $('<img src="http://services.mapossum.org/legend/'+qid+'?opacity=0&color=white" width="230">')
+	$("#legendPic").empty();
+	d = new Date();
+	iv = d.getTime(); 	    	
+	legendImage = $('<img src="http://services.mapossum.org/legend/'+qid+'?v="+ iv + "opacity=0&color=white" width="230">')
 	legendImage.appendTo('#legendPic').trigger( "create" )
 	
 	$("#maplegend").empty();	    	
-	legendImage = $('<img src="http://services.mapossum.org/legend/'+qid+'?opacity=0&color=white" width="' + legendsize + '">')
+	legendImage = $('<img src="http://services.mapossum.org/legend/'+qid+'?v="+ iv + "opacity=0&color=white" width="' + legendsize + '">')
 	legendImage.appendTo('#maplegend').trigger( "create" )
  
 }
@@ -543,7 +546,7 @@ function showChart(data) {
 }
 
 function updateUrl(){
-	$('#eLink').html("<iframe src='index.html' style='width:"+$('#sldWidth').val()+"px;height:"+$('#sldHeight').val()+"px' frameborder='none'></iframe>")
+	$('#eLink').html("<iframe src='index.html?qid="+mpapp.qid+"' style='width:"+$('#sldWidth').val()+"px;height:"+$('#sldHeight').val()+"px' frameborder='none'></iframe>")
 }
 
 /* click events */
