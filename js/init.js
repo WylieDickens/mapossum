@@ -672,14 +672,9 @@ $("#legend").bind('click', function(){
 
 $("#closeWelcome").bind('click', function(){
 	welVal = $("#showWelcome").val()
-	console.log(welVal)
-	
-
-if (welVal == "no") {
-	localStorage.setItem("welDiv", welVal)
-	console.log(localStorage.welDiv)
-		
-}
+	if (welVal == "no") {
+		localStorage.setItem("welDiv", welVal)		
+	}
 })
 
 $("#globe").bind('click', function(){
