@@ -18,9 +18,6 @@ $( window ).load(function() {
 $( "#boundaryMenu" ).popup({ overlayTheme: "b" });
 $( "#legendPopup" ).popup({ overlayTheme: "b" });
 $( "#descriptionPopup" ).popup({ overlayTheme: "b"});
-// $( "#welcome" ).panel({ overlayTheme: "a" });
-// $( "#welcome" ).panel({ theme: "b" });
-// $( "#welcome" ).panel( "option", "history", false );
 $('#showWelcome').slider()
 $("#pnlIdent").panel({});
 $("#pnlShare").panel({});
